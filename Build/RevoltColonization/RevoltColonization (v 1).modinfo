@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="d5e6aa4e-a6b9-4c28-ba62-81458bbb4c51" version="1">
+  <Properties>
+    <Name>RevoltColonization</Name>
+    <Stability>Alpha</Stability>
+    <Teaser>ColonyRevolt!</Teaser>
+    <Description>ColonyRevolt!</Description>
+    <Authors>Florian</Authors>
+    <HideSetupGame>0</HideSetupGame>
+    <AffectsSavedGames>1</AffectsSavedGames>
+    <MinCompatibleSaveVersion>0</MinCompatibleSaveVersion>
+    <SupportsSinglePlayer>1</SupportsSinglePlayer>
+    <SupportsMultiplayer>1</SupportsMultiplayer>
+    <SupportsHotSeat>1</SupportsHotSeat>
+    <SupportsMac>1</SupportsMac>
+    <ReloadAudioSystem>0</ReloadAudioSystem>
+    <ReloadLandmarkSystem>0</ReloadLandmarkSystem>
+    <ReloadStrategicViewSystem>0</ReloadStrategicViewSystem>
+    <ReloadUnitSystem>0</ReloadUnitSystem>
+  </Properties>
+  <Dependencies>
+    <Mod id="78566333-5214-434f-801d-4168386c2475" minversion="0" maxversion="999" title="Colonization Mod" />
+  </Dependencies>
+  <References />
+  <Blocks />
+  <Files>
+    <File md5="4B37319618F4128CF184EAB42D1FF876" import="0">ColonyOverview.lua</File>
+    <File md5="DE72265FC34DE2B8186475948D6BDCDA" import="0">ColonyOverview.xml</File>
+    <File md5="BEE5419FBA428E56998CBA8E3DD48E24" import="0">ColonyText.xml</File>
+    <File md5="55ABB9E8218BF14D027D85B97E94CAF5" import="0">Revolt2.0/NewSaveUtils.lua</File>
+    <File md5="A30167786B8DB92C1B9A5B9ACE8CF780" import="0">Revolt2.0/RevoltFunction2.lua</File>
+    <File md5="E4A3091C1E4D40C1E57403B4DF080043" import="0">Revolt2.0/RevoltUtils.lua</File>
+    <File md5="5F6028BE67C420EB321E3A866B77412D" import="0">Revolt2.0/TableSaverLoader.lua</File>
+    <File md5="8E5F258308B3B16127EE0A080E47B8DD" import="0">Revolt/animationcheatSHEET.lua</File>
+    <File md5="559230EF4CF52DCA4F9E997201E890DF" import="1">Revolt/DissidenceFunction.lua</File>
+    <File md5="63D3E3C9B4D19E41FFA493E9F68D9D68" import="1">Revolt/LoyalityFunction.lua</File>
+    <File md5="5690A1B2ACA2729FD9D55156E232AB1A" import="1">Revolt/PlotIterators.lua</File>
+    <File md5="F21C2172080CBC59C13C1A6412C68F27" import="1">Revolt/RebelsSpawn.lua</File>
+    <File md5="6C3177C88AFD95441C5E0DFAAD3FF330" import="0">Revolt/RevoltFunction.lua</File>
+    <File md5="1B9D6F3251EDE2E7BE85D6F85CFE0F67" import="1">Revolt/RouteConnections.lua</File>
+    <File md5="BC9DFEEBA117B2E58DA0865FE2023476" import="0">TesteFacility.sql</File>
+  </Files>
+  <Actions>
+    <OnModActivated>
+      <UpdateDatabase>ColonyOverview.xml</UpdateDatabase>
+      <UpdateDatabase>ColonyText.xml</UpdateDatabase>
+      <UpdateDatabase>TesteFacility.sql</UpdateDatabase>
+    </OnModActivated>
+  </Actions>
+  <EntryPoints>
+    <EntryPoint type="InGameUIAddin" file="ColonyOverview.xml">
+      <Name>ColonyOverview</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/RevoltFunction.lua">
+      <Name>RevoltFunction</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/RouteConnections.lua">
+      <Name>RouteConnection</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/RebelsSpawn.lua">
+      <Name>RebelSpawn</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/LoyalityFunction.lua">
+      <Name>LoyalityFunction</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/DissidenceFunction.lua">
+      <Name>DissidenceFunction</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+  </EntryPoints>
+</Mod>

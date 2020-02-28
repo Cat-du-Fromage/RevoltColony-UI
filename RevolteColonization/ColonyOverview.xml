@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by ModBuddy on 12/8/2019 4:19:42 PM -->
+<Context Font="TwCenMT18" FontStyle="Shadow" ColorSet="Beige_Black_Alpha" Hidden="1">
+	<Box Style="BGBlock_ClearTopBar" ID="BGBlock"/>
+	<Grid Size="960,658" Anchor="C,C" Offset="0,36" Padding="0,0" Style="Grid9DetailFive140" ConsumeMouse="1">
+		
+		<!-- Upper Treatment -->
+		<Image Anchor="C,T" AnchorSide="I.O" Size="256,64" Offset="0,-14" Texture="assets\UI\Art\Icons\Top512IconTrim.dds">
+			<Image ID="CivIconBG" Size="64.64" Anchor="C,C" Offset="-1,-1" TextureOffset="77,0" Texture="CivIconBGSizes.dds"/>
+			<Image ID="CivIconShadow" Size="48.48" Anchor="C,C" Offset="0,0" Texture="CivSymbolAtlas48.dds" Color="Black.128"/>
+			<Image ID="Icon" Size="48,48" Offset="-1,-1" Anchor="C,C" Texture="CivSymbolsColor512.dds"/>
+		</Image>
+		<Label Style="MenuTitleCaption" String="TXT_KEY_COLONY_OVERVIEW" ID="Title" />
+		
+		<!-- Side treatments -->
+		<Box Style="MenuLeftSideTreatment"/>
+		<Box Style="MenuRightSideTreatment"/>
+		
+		<!-- Main Container -->
+		<Box Offset="0,43" Anchor="L,T" Size="956,565" Color="255.255.200.0">
+			<Label Anchor="C,C" WrapWidth="800" ID="LabelColonyNotStartedYet" String="TXT_KEY_COLONY_NOT_STARTED_YET" ColorSet="Beige_Black_Alpha" Font="TwCenMT22" FontStyle="Shadow"/>
+			<Box Size="954,464" Offset="18,0" Color="0,0,0,0" ID="OverviewPanel" Hidden="1">
+				<Grid Anchor="LC,T" Offset="5,4" Style="WindowGrid" Size="916,24">
+					<Stack Anchor="L,T" Offset="0,0" StackGrowth="Right" Padding="0">
+						<Box Anchor="C,C" Color="White.0" Size="264,24" Offset="0,0">
+							<Label Anchor="C,C" ID="LabelColonyList" String="{TXT_KEY_YOUR_COLONIES}" WrapWidth="160" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+						</Box>
+
+						<Image Anchor="C,C" AnchorSide="o,i" Offset="-202,0" Texture="VerticalTrim.dds" Size="5,25" ID="Vert"/>
+						
+						<Box Anchor="C,C" Color="White.0" Size="652,24" Offset="0,0">
+							<Label Anchor="C,C" ID="LabelColonyDetails" String="{TXT_KEY_COLONY_DETAILS}" WrapWidth="160" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+						</Box>
+					</Stack>
+				</Grid>
+				<Image Anchor="L,C" AnchorSide="o,i" Offset="-264,32" Texture="VerticalTrim.dds" Size="5,472" ID="Vert"/>
+
+				<!-- Colony List -->
+				<ScrollPanel Offset="0,30" AutoScrollBar="1" Size="236,200" OffsetX="8,0" Vertical="1" ID="ScrollPanel">
+					<Label Anchor="C,C" Offset="12,-16" WrapWidth="216" ID="LabelNoColonies" String="{TXT_KEY_NO_COLONIES:upper}" ColorSet="Beige_Black_Alpha" Font="TwCenMT18" FontStyle="Shadow"/>
+					
+					<!-- Scroll Controls -->
+					<ScrollBar Style="VertSlider" Length="280" Offset="0.18" Anchor="R,T" AnchorSide="O,I"/>
+					<!-- Length="196" -->
+					<UpButton Offset="0.0" Style="ScrollBarUp" Anchor="R,T" AnchorSide="O,I"/>
+					<DownButton Offset="0.0" Style="ScrollBarDown" Anchor="R,B" AnchorSide="O,I"/>
+					<Stack Anchor="L,T" Offset="0,0" Size="260,416" StackGrowth="Bottom" Padding="0" ID="ColonyStack">
+						<!-- Size="260,216" -->
+					</Stack>
+				</ScrollPanel>
+				<Image Anchor="L,C" Offset="0,100" Texture="HorizontalTrim.dds" Size="260.5" ID="Horiz"/>
+
+				<!-- Colony General Management -->
+				<Box Size="260,45" Offset="0,320" Color="Beige,0" Anchor="L,T" ID="GeneralManagementHeader">
+					<Grid Size="260,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+					<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_COLONY_GENERAL_MANAGEMENT}"/>
+				</Box>
+				<Box Anchor ="L,B" Offset="0,0" Size="260,232" Color="255,255,255,0" ID="ColonyGeneralManagementBox">
+					<Label Anchor="L,C" Offset="4,0" ID="ColonyGeneralManagement" ColorSet="Beige_Black_Alpha" Font="TwCenMT16" FontStyle="Shadow"/>
+				</Box>
+			</Box>
+		</Box>
+		
+		<!-- Colony Description -->
+		<Box Anchor="L,T" Offset="270,60" Size="646,464" Color="255,255,255,0">
+			<Box ID="ColonyDescBox" Anchor="L,T" Size="646,464" Offset="0,0" Color="255,255,255,0" Hidden="1" >
+				<Box ID="ColonyInfoBox" Size="646,128" Offset="0,0" Color="255,255,255,0">
+					<Stack Anchor="L,T" Offset="0,0" StackGrowth="Right" Padding="0">
+
+						<Box ID="ColonyDescLeaderBox" Anchor="L,T" Size="128,128" Color="255,255,255,0" Offset="0,0">
+								<Image ID="ColonySubIconBG" Size="128,128" Anchor="C,C" Offset="0,0" TextureOffset="32,0" Texture="CivIconBGSizes.dds"/>
+								<Image ID="ColonySubIconShadow" Size="128,128" Anchor="C,C" Offset="1,1" Texture="CivSymbolAtlas128.dds" Color="Black.128"/>
+								<Image ID="ColonySubIcon" Size="128,128" Offset="-1,-1" Anchor="C,C" Texture="CivSymbolsColor256.dds"/>
+								<!-- <Image ID="ColonySubIconHighlight" Size="128,128" Anchor="C,C" Offset="0,0" TextureOffset="0,0" Texture="CivIconBGSizes_Highlight.dds"/>-->
+							<!-- </Image>-->
+						</Box>
+						<Box Anchor="L,T" Size="240, 128" Offset="0,0" Color="255,255,255,0">
+							<Label Anchor="L,T" Offset="0,32" Font="TwCenMT24" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_DIPLO_LEADER_NAME" ID="ColonyInfoLeaderName"/>
+							<Label Anchor="L,T" Offset="0,58" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_DIPLO_CIVILIZATION_NAME" ID="ColonyInfoCivName"/>
+							
+							<Label Anchor="L,T" Offset="0,76" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_VO_TURNS" ID="ColonyInfoStarted"/>
+						</Box>
+					</Stack>
+				</Box>
+				<!-- UI statistique et management barre-->
+				<Grid Anchor="LC,T" Offset="20,130" Style="WindowGrid" Size="646,24">
+					<Stack Anchor="L,T" Offset="0,0" StackGrowth="Right" Padding="0">
+						<Box Anchor="C,C" Color="White.0" Size="323,24" Offset="0,0">
+							<Label Anchor="C,C" String="{TXT_KEY_STATISTICS}" WrapWidth="160" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+						</Box>
+						<Box Anchor="C,C" Color="White.0" Size="323,24" Offset="0,0">
+							<Label Anchor="C,C" String="{TXT_KEY_MANAGEMENT}" WrapWidth="160" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+						</Box>
+					</Stack>
+				</Grid>
+				<!-- UI Statistique Container-->
+				<Box ID="ColonyStatsBox" Anchor="L,T" Size="323,334" Offset="20,152" Color="255,255,255,0">
+					<ScrollPanel Offset="0,0" AutoScrollBar="1" Size="296,316" Vertical="1" ID="StatsScrollPanel">
+						<!-- Scroll Controls -->
+						<ScrollBar Style="VertSlider" Length="280" Offset="0.18" Anchor="R,T" AnchorSide="O,I" ID="VertSlider"/>
+						<UpButton Offset="0.0" Style="ScrollBarUp" Anchor="R,T" AnchorSide="O,I" ID="UpButton"/>
+						<DownButton Offset="0.0" Style="ScrollBarDown" Anchor="R,B" AnchorSide="O,I" ID="DownButton"/>
+						<Stack Anchor="L,T" Offset="0,0" StackGrowth="Bottom" Padding="0">
+							<!-- Colony Population Overview -->
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_POPULATION_STAT}"/>
+							</Box>
+							<Box Anchor="L,T" Size="290,48" Color="255,255,255,0">
+								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_POPULATION_STAT}"/>
+								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsPopulation"/>
+
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Happiness" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsHappy"/>
+							</Box>
+							<!-- Colony Trade Route Overview -->
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_ECONOMY}"/>
+							</Box>
+							<Box Anchor="L,T" Size="290,72" Color="255,255,255,0">
+								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GROSS_GPT_STAT}"/>
+								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGross"/>
+
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GOLD_PER_TURN_STAT}"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGold"/>
+
+								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_TRADE_ROUTES_STAT}"/>
+								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsTradeRoutes"/>
+							</Box>
+							<!-- Colony Culture Overview -->
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_CULTURE_STAT}"/>
+							</Box>
+							<Box Anchor="L,T" Size="290,72" Color="255,255,255,0">
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_CULTURE_STAT}"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsCulture"/>
+
+								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_SCIENCE_STAT}"/>
+								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsScience"/>
+
+								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GOLD_STAT}"/>
+								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsGold"/>
+							</Box>
+							<!-- Colony Religion Overview -->
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_RELIGION}"/>
+							</Box>
+							<Box Anchor="L,T" Size="290,48" Color="255,255,255,0">
+								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Majority Religion" ID="ColonyStatsReligion"/>
+
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_FAITH_STAT}"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsFaith"/>
+							</Box>
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_UNREST}"/>
+							</Box>
+							<!--
+							
+							<Box Anchor="L,T" Size="290,108" Color="255,255,255,0" ID="ScienceBox">
+								<Label Anchor="L,T" Offset="4,18" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_VO_SCIENCE_STAT"/>
+								<Label Anchor="R,T" Offset="4,18" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsScience"/>
+
+								<Box Anchor="L,B" Color="255.255.255.0" Offset="16,0" Size="254,70" Hidden="0" ID="TechBox" ToolTip="">
+									<Image Anchor="C,C" Size="214,29" Offset="-20,4" Texture="MeterBarGreatPersonBack.dds">
+										<TextureBar Anchor="L,C" Size="214.29" Texture="meterbargreatespionageblue.dds" Direction="Right" ID="ResearchMeter" Hidden="0"/>
+										<Image Anchor="L,C" Size="214,29" Offset="0,0" Texture="MeterBarFrame.dds"/>
+										<Label Anchor="L,T" Offset="12,-15" String="TechName" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="TechLabel" Hidden="0"/>
+									</Image>
+									<Image Anchor="R,C" Size="64,64" Offset="0,-2" Texture="64x64FrameButtons.dds">
+										<Button NoStateChange="1" Anchor="C,C" TextureOffset="64,128" Size="64,64" ID="TechIcon"/>
+									</Image>
+								</Box>
+							</Box>
+							-->
+						</Stack>
+					</ScrollPanel>
+				</Box>
+			</Box>
+		</Box>
+		
+		<Box Anchor="C,B" AnchorSide="I.I" Offset="0,54" Size="927,56" Color="255,255,255,0">
+			<Label Anchor="R,T" Offset="400,16" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="NumColonies"/>
+			<Label Anchor="R,T" Offset="400,36" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="NumColoniesWorld"/>
+			
+			<!-- Close Button  -->
+			<GridButton Anchor="L,B" Style="SmallButton" Size="150,32" Offset="14,0" StateOffsetIncrement="0,0" ID="CloseButton">
+				<Label Anchor="C,C" Offset="0,0" String="TXT_KEY_CLOSE" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+			</GridButton>
+		</Box>
+		<Image Anchor="C,B" Offset="0,110" Texture="HorizontalTrim.dds" Size="927.5"/>
+
+	</Grid>
+	
+	<!-- Colony Button Instance -->
+	<Instance Name="ColonyButtonInstance">
+		<Button Size="224,58" Anchor="L,T" ID="ColonyButton">
+			<ShowOnMouseOver>
+				<AlphaAnim Anchor="L,C" Size="478,51" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="2" AlphaEnd="1">
+					<Grid Size="240,51" Offset="0,0" Padding="0,0" Style="Grid9FrameTurnsHL"/>
+				</AlphaAnim>
+			</ShowOnMouseOver>
+			<Stack Anchor="L,C" StackGrowth="Right" Offset="0,0" Padding="0" ID="LeaderStack">
+				<Box ID="NameBox" Offset="0,0" Anchor="R,C" Size="200,48" Color="White.0">
+					<Image Anchor="L,C" Offset="0,0" Texture="LeaderPortraits512.dds" Size="64.64" ID="LeaderPortrait"/>
+					<Label Anchor="L,B" Offset="12,0" Font="TwCenMT14" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="TeamID"/>
+					<Label Anchor="L,T" Offset="64.8" Font="TwCenMT22" TruncateWidth="180" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_DIPLO_LEADER_NAME" ID="LeaderName"/>
+					<Label Anchor="L,B" Offset="64,8" Font="TwCenMT16" TruncateWidth="180" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="TXT_KEY_DIPLO_CIVILIZATION_NAME" ID="CivName"/>
+				</Box>
+			</Stack>
+		</Button>
+	</Instance>
+
+</Context>
