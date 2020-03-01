@@ -5,7 +5,9 @@
 include( "IconSupport" );
 include( "InstanceManager" );
 include( "TechHelpInclude" );
-
+include("LoyalityFunction.lua")
+include("DissidenceFunction.lua")
+include("ColonyOverviewOutPut.lua")
 
 local g_ColonyButton = InstanceManager:new( "ColonyButtonInstance", "ColonyButton", Controls.ColonyStack );
 
@@ -60,8 +62,14 @@ end);
 function ColonyInputHandler( uiMsg, wParam, lParam )      
     if(uiMsg == KeyEvents.KeyDown) then
         if (wParam == Keys.VK_ESCAPE) then
-			OnClosingOK()
-			return true
+			if(Controls.Confirm:IsHidden()) then
+				OnClose();
+				OnClosingOK()
+			else
+				Controls.Confirm:SetHide(true);
+				Controls.BGBlock:SetHide(false);
+			end
+            return true;
         end
     end
 end
@@ -88,7 +96,7 @@ local g_iPlayer = Players[Game.GetActivePlayer()]
 local iTech = GameInfoTypes["TECH_COMPASS"]
 local renaissance = GameInfo.Eras["ERA_RENAISSANCE"].ID
 local tColonyStarted = false
-	if g_iPlayer:GetCurrentEra() == renaissance then
+	if g_iPlayer:GetCurrentEra() >= renaissance then
 	tColonyStarted = true;
 	--print("ColonyStart = vrai")
 	else
@@ -224,31 +232,9 @@ function ColonySelected( iCity ) -- ID
 
 	-- Original Civilization's owner Portrait
 	CivIconHookup(originalOwnerID, 128, Controls.ColonySubIcon, Controls.ColonySubIconBG, Controls.ColonySubIconShadow, false, true );
-	--[[
+	--
 	-- Build Independence tooltip
-	local strIndependenceTooltip = g_pPlayer:GetVassalIndependenceTooltipAsMaster(ePlayer);
-
-	local strIndependencePossible = "";
-	if( pVassalTeam:CanEndVassal(g_iPlayer) ) then
-		strIndependencePossible = "[COLOR_NEGATIVE_TEXT]" .. Locale.ConvertTextKey("TXT_KEY_DECLARE_WAR_YES") .. "[ENDCOLOR]";
-	else 
-		strIndependencePossible = "[COLOR_POSITIVE_TEXT]" .. Locale.ConvertTextKey("TXT_KEY_DECLARE_WAR_NO") .. "[ENDCOLOR]";
-	end
-
-
-	Controls.VassalInfoIndependence:LocalizeAndSetText( strIndependencePossible );
-	Controls.VassalInfoIndependence:SetToolTipString(strIndependenceTooltip);
-
-	Controls.VassalPercentMasterCities:LocalizeAndSetText( iMasterCityPercent .. "%" );
-	Controls.VassalPercentMasterCities:LocalizeAndSetToolTip( "TXT_KEY_VO_MASTER_CITY_PERCENT_TT", pVassalTeam:GetNumCities(), g_pTeam:GetNumCities(), pVassalPlayer:GetNumCities() );
-	Controls.VassalPercentMasterPop:LocalizeAndSetText( iMasterPopPercent .. "%" );
-	Controls.VassalPercentMasterPop:LocalizeAndSetToolTip( "TXT_KEY_VO_MASTER_POP_PERCENT_TT", pVassalTeam:GetTotalPopulation(), g_pTeam:GetTotalPopulation(), pVassalPlayer:GetTotalPopulation() );
-
-	Controls.VassalInfoCityPercent:LocalizeAndSetText( iCityPercent  .. "%");
-	Controls.VassalInfoCityPercent:LocalizeAndSetToolTip("TXT_KEY_VO_CITY_PERCENT_TT", pVassalTeam:GetNumCities(), pVassalTeam:GetNumCitiesWhenVassalMade(), pVassalPlayer:GetNumCities());
-	Controls.VassalInfoPopPercent:LocalizeAndSetText( iPopPercent  .. "%");
-	Controls.VassalInfoPopPercent:LocalizeAndSetToolTip("TXT_KEY_VO_POP_PERCENT_TT", pVassalTeam:GetTotalPopulation(), pVassalTeam:GetTotalPopulationWhenVassalMade(), pVassalPlayer:GetTotalPopulation());
-
+	--[[
 	local strType, strTypeTooltip;
 	if( pVassalTeam:IsVoluntaryVassal( g_iTeam ) ) then
 		strType = Locale.ConvertTextKey( "TXT_KEY_VO_VASSAL_TYPE_VOLUNTARY" );
@@ -261,20 +247,21 @@ function ColonySelected( iCity ) -- ID
 	Controls.VassalInfoType:LocalizeAndSetText(strType);
 	Controls.VassalInfoType:LocalizeAndSetToolTip(strTypeTooltip);
 
-	Controls.TaxSlider:SetValue( TaxValueToPercent( g_pTeam:GetVassalTax( ePlayer ) ) );
+	Controls.TaxSlider:SetValue( TaxValueToPercent( g_pTeam:GetVassalTax( ePlayer ) ) );         --NOUS INDIQUE LA TAXE EN COURS
 	
 	local iNumTurnsForTax = Game.GetMinimumVassalTaxTurns();
 	local iNumTurnsSinceSet = g_pTeam:GetNumTurnsSinceVassalTaxSet( ePlayer );
 	local iNumTurnsLeft = iNumTurnsForTax - iNumTurnsSinceSet;
-
-	if( not g_pTeam:CanSetVassalTax( ePlayer ) ) then
-		Controls.TaxSlider:SetDisabled( true );
-		Controls.TaxSliderValueToolTip:LocalizeAndSetToolTip( "TXT_KEY_VO_TAX_TOO_SOON", iNumTurnsForTax, iNumTurnsLeft );
+			--ETAPE A DEFINIR																	NOUS INDIQUE SI ON PEUT TAXER --> DEFINIR LES CONDITION (SUREMENT LE BATIMENT "TIMER_TAXE")
+	if( CanSetGeneralTaxe(g_iPlayer) == false ) then
+		Controls.GeneralTaxSlider:SetDisabled( true );
+		--Controls.TaxSliderValueToolTip:LocalizeAndSetToolTip( "TXT_KEY_VO_TAX_TOO_SOON", iNumTurnsForTax, iNumTurnsLeft );
 	else
-		Controls.TaxSlider:SetDisabled( false );
-		Controls.TaxSliderValueToolTip:SetToolTipString( "" );
+		Controls.GeneralTaxSlider:SetDisabled( false );
+		--Controls.TaxSliderValueToolTip:SetToolTipString( "" );
 	end
 	
+	--POSSIBLEMENT NON UTILISE
 	local iTurnTaxesSet = Game.GetGameTurn() - iNumTurnsSinceSet;
 	local iTurnTaxesAvailable = Game.GetGameTurn() + iNumTurnsLeft;
 	local availableStr = "";
@@ -297,15 +284,15 @@ function ColonySelected( iCity ) -- ID
 	Controls.TaxesTurnSet:SetText(taxesSetTurnStr);
 	Controls.TaxesAvailableTurn:SetText(availableStr);
 	Controls.TaxSliderValue:LocalizeAndSetText("TXT_KEY_VO_TAX_RATE", g_pTeam:GetVassalTax( ePlayer ) );
+	]]
+	DoVassalStatistics( pCity, g_iPlayer );
+	-- ON APPLY CHANGE
+	Controls.ApplyGeneralChanges:SetDisabled( true );
+	Controls.ApplyGeneralChanges:SetVoid1( g_iPlayer );
+	Controls.ApplyGeneralChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
+	Controls.ApplyGeneralChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
 
-	DoVassalStatistics( ePlayer );
-	UpdateVassalTreatment( ePlayer );
-
-	Controls.ApplyChanges:SetDisabled( true );
-	Controls.ApplyChanges:SetVoid1( ePlayer );
-	Controls.ApplyChanges:RegisterCallback( Mouse.eLClick, OnApplyChangesClicked );
-	Controls.ApplyChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_CHANGES_TT" );
-
+	--[[
 	-- Liberate Vassal button
 	local tooltipStr = Locale.ConvertTextKey("TXT_KEY_VO_LIBERATE_VASSAL_TT", pVassalTeam:GetName());
 	if( not g_pTeam:CanLiberateVassal( iVassalTeam ) ) then
@@ -318,16 +305,138 @@ function ColonySelected( iCity ) -- ID
 	Controls.LiberateCiv:SetToolTipString( tooltipStr );
 	Controls.LiberateCiv:SetVoid1( iVassalTeam );
 	Controls.LiberateCiv:RegisterCallback( Mouse.eLClick, OnLiberateCivClicked );
-
+		]]
 	Controls.StatsScrollPanel:CalculateInternalSize();
 	Controls.StatsScrollPanel:ReprocessAnchoring();
 
 	Controls.ManagementScrollPanel:CalculateInternalSize();
 	Controls.ManagementScrollPanel:ReprocessAnchoring();
-	]]
 end
 
 
 
 	LuaEvents.RequestRefreshAdditionalInformationDropdownEntries();
 	ContextPtr:SetHide(true);
+
+
+
+function DoVassalStatistics( pCity, playerID )
+local city = pCity
+--print("CityID",city)
+--local player = city:GetOwner()
+local player = playerID
+--print("PlayerID", player)
+local TotalDissidence = ColonyDissidence(city, player)
+local dissidenceConnectionMetropoleBuild = DissidenceConnectionNumBuilding(city, player)
+local dissidenceBaseUnHappiness = DissidenceBase(city, player)
+local dissidenceGPT = DissidenceGPT(player)
+local dissidenceEmpire = DissidenceEmpire(player)
+local dissidenceWW = DissidenceWarWeariness(player)
+
+local cityYieldGold = city:GetYieldRateTimes100( YieldTypes.YIELD_GOLD ) / 100
+local cityYieldScience = city:GetYieldRateTimes100( YieldTypes.YIELD_SCIENCE ) / 100
+local cityYieldCulture = city:GetYieldRateTimes100( YieldTypes.YIELD_CULTURE ) / 100
+print("CITYYIELD", cityYieldGold)
+local WLTKDBonus = ColonyWLTKD(player, city)
+local GABonus = ColonyGoldenAge(player)
+	-- Population Dissidence
+	Controls.ColonyStatsPopulation:SetText( city:GetPopulation() );
+	Controls.ColonyStatsTotalDissidence:SetText( TotalDissidence );
+	Controls.ColonyStatsConnection:SetText( dissidenceConnectionMetropoleBuild );
+	Controls.ColonyStatsBaseUnhappy:SetText( dissidenceBaseUnHappiness );
+	Controls.ColonyStatsGPT:SetText( dissidenceGPT );
+	Controls.ColonyStatsEmpireDissidence:SetText( dissidenceEmpire );
+	Controls.ColonyStatsWarWeariness:SetText( dissidenceWW );
+
+	-- Population Loyality
+	Controls.ColonyStatsWLTKD:SetText( WLTKDBonus );
+	Controls.ColonyStatsGA:SetText( GABonus );
+
+	-- ColonyOutput
+	Controls.ColonyStatsGold:SetText(cityYieldGold);
+	Controls.ColonyStatsScience:SetText(cityYieldScience);
+	Controls.ColonyStatsCulture:SetText(cityYieldCulture);
+end
+
+--=========================================================================================================
+-- General Colony Tax Slider
+--=========================================================================================================
+function GeneralTaxSliderUpdate( fValue )
+
+	local iTaxValue = PercentToTaxValue( fValue );
+	Controls.GeneralTaxSliderValue:SetText( Locale.ConvertTextKey("TXT_KEY_GENERAL_COLONY_TAX_RATE", iTaxValue) );
+
+	--UpdateApplyChanges();
+end
+Controls.GeneralTaxSlider:RegisterSliderCallback( GeneralTaxSliderUpdate );
+
+--fonction qui permet de changer les taxes????
+function UpdateApplyChanges()
+	Controls.ApplyGeneralChanges:SetDisabled( true--[[ PercentToTaxValue(Controls.GeneralTaxSlider:GetValue() ) == g_pTeam:GetVassalTax(g_SelectedVassal)]] );
+end
+
+-- convert percentage to tax tvalue
+function PercentToTaxValue( fPercent )
+	local iMin = 0
+	local iMax = 50
+
+	-- desired number of steps we want the meter to grow
+	local iStepIncrease = 5;
+	local iStepsNeeded = (iMax / iStepIncrease);
+	
+	fPercent = math.floor( fPercent * iStepsNeeded ) * (1 / iStepsNeeded);
+	return fPercent * (iMax - iMin);
+end
+
+-- convert Tax Value to percentage from 0.0 to 1.0
+function TaxValueToPercent( iTaxValue )
+	local iMin = 0
+	local iMax = 50
+	return math.min(math.max((iTaxValue) / (iMax - iMin), 0), 1);
+end
+
+--=========================================================================================================
+-- BUTTON CLICKED
+--=========================================================================================================
+
+function OnApplyGeneralChangesClicked( playerID )
+	local iTaxValue = PercentToTaxValue( Controls.TaxSlider:GetValue() );
+
+	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE", iTaxValue, 30--[[NUM TURN]] );
+	Controls.Confirm:SetHide( false );
+	Controls.BGBlock:SetHide( true );
+	
+	Controls.Yes:SetVoid1( 1 );
+	Controls.Yes:SetVoid2( playerID );
+	Controls.Yes:RegisterCallback( Mouse.eLClick, OnYes );
+end
+-----------------------------------------------
+--BOUTON CLOSE
+-----------------------------------------------
+function OnClose()
+    UIManager:DequeuePopup( ContextPtr );
+end
+Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnClose);
+-----------------------------------------------
+--BOUTON OUI
+-----------------------------------------------
+function OnYes( type, iValue )
+	Controls.Confirm:SetHide(true);
+	Controls.BGBlock:SetHide(false);
+
+	-- Apply Tax Change
+	if ( type == 1 ) then
+		local iTaxRate = PercentToTaxValue( Controls.GeneralTaxSlider:GetValue() );
+		--g_pTeam:DoApplyVassalTax( iValue, iTaxRate );
+		--VassalSelected( iValue );
+		--UpdateApplyChanges();
+	end
+end
+-----------------------------------------------
+--BOUTON NON
+-----------------------------------------------
+function OnNo( )
+	Controls.Confirm:SetHide(true);
+	Controls.BGBlock:SetHide(false);
+end
+Controls.No:RegisterCallback( Mouse.eLClick, OnNo );

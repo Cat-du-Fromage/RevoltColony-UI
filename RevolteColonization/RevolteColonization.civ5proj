@@ -67,6 +67,12 @@
         <Description />
         <FileName>Revolt/DissidenceFunction.lua</FileName>
       </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>ColonyOverViewOutPut</Name>
+        <Description />
+        <FileName>Revolt/ColonyOverviewOutPut.lua</FileName>
+      </Content>
     </ModContent>
     <ModActions>
       <Action>
@@ -112,7 +118,7 @@
     </Content>
     <Content Include="Revolt2.0\NewSaveUtils.lua">
       <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
+      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
     <Content Include="Revolt2.0\RevoltFunction2.lua">
       <SubType>Lua</SubType>
@@ -129,6 +135,10 @@
     <Content Include="Revolt\animationcheatSHEET.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Revolt\ColonyOverviewOutPut.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
     <Content Include="Revolt\DissidenceFunction.lua">
       <SubType>Lua</SubType>

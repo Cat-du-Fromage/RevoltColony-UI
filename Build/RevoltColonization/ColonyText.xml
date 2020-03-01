@@ -38,17 +38,73 @@
 		<Row Tag="TXT_KEY_POPULATION_STAT">
 			<Text>[ICON_CITIZEN] Population</Text>
 		</Row>
-		<Row Tag="TXT_KEY_ECONOMY">
-			<Text>Economy</Text>
+		<!-- COLONY PERSONNAL MANAGEMENT 
+		<Row Tag="TXT_KEY_COLONY_TAX_RATE">
+			<Text>Tax Rate: {1_Num}%</Text>
 		</Row>
-		<Row Tag="TXT_KEY_GROSS_GPT_STAT">
-			<Text>[ICON_GOLD] Gross Gold Per Turn</Text>
+		<Row Tag="TXT_KEY_COLONY_TAXES">
+			<Text>Taxation</Text>
 		</Row>
-		<Row Tag="TXT_KEY_GOLD_PER_TURN_STAT">
-			<Text>[ICON_GOLD] Gold Per Turn</Text>
+		<Row Tag="TXT_KEY_APPLY_CHANGES_TT">
+			<Text>Apply changes to the Colony's tax rate. The changes will take effect on the next turn.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_COLONY_CONFIRM_TAX_CHANGE">
+			<Text>Are you sure you want to apply a tax rate of {1_TaxRate} to {2_ColonyName}? You cannot change this value for {3_NumTurns} Turns. The tax will be applied on the following turn. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]</Text>
+		</Row>
+		-->
+		<!-- COLONY GENERAL MANAGEMENT  -->
+		<Row Tag="TXT_KEY_COLONY_GENERAL_TAXES">
+			<Text>General Taxation</Text>
+		</Row>
+		<Row Tag="TXT_KEY_APPLY_GENERAL_CHANGES">
+			<Text>Apply Change</Text>
+		</Row>
+		<Row Tag="TXT_KEY_APPLY_GENERAL_CHANGES_TT">
+			<Text>Apply changes to the Colony's tax rate. The changes will take effect on the next turn.</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GENERAL_COLONY_TAX_RATE">
+			<Text>Tax Rate: {1_Num}%</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE">
+			<Text>Are you sure you want to apply a tax rate of {1_TaxRate}? You cannot change this value for {3_NumTurns} Turns. The tax will be applied on the following turn. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]</Text>
+		</Row>
+		<!-- LOYALITY -->
+		<Row Tag="TXT_KEY_LOYALITY">
+			<Text>Loyality</Text>
+		</Row>
+		<Row Tag="TXT_KEY_WLTKD_STAT">
+			<Text>[ICON_HAPPINESS_1] We Love The King Day</Text>
+		</Row>
+		<Row Tag="TXT_KEY_GA_STAT">
+			<Text>[ICON_GOLDEN_AGE] Golden Age</Text>
 		</Row>
 		<Row Tag="TXT_KEY_TRADE_ROUTES_STAT">
 			<Text>[ICON_TURNS_REMAINING] Trade Routes</Text>
+		</Row>
+		<Row Tag="TXT_KEY_OUTPUT_STAT">
+			<Text>Yield Output</Text>
+		</Row>
+		<!-- DISSIDENCE -->
+		<Row Tag="TXT_KEY_DISSIDENCE_STAT">
+			<Text>[ICON_RESISTANCE] Colony Dissidence</Text>
+		</Row>
+		<Row Tag="TXT_KEY_TOTAL_DISSIDENCE_STAT">
+			<Text>[ICON_HAPPINESS_4] Total Dissidence</Text>
+		</Row>
+		<Row Tag="TXT_KEY_BASE_DISSIDENCE_STAT">
+			<Text>[ICON_HAPPINESS_3] We Want Equal Rights</Text>
+		</Row>
+		<Row Tag="TXT_KEY_CONNECTION_DISSIDENCE_STAT">
+			<Text>[ICON_BLOCKADED] Not Connected to the Metropole </Text>
+		</Row>
+		<Row Tag="TXT_KEY_GPT_DISSIDENCE_STAT">
+			<Text>[ICON_GOLD] PAUVRE </Text>
+		</Row>
+		<Row Tag="TXT_KEY_EMPIRE_DISSIDENCE_STAT">
+			<Text>[ICON_CAPITAL] Empire Unhappiness </Text>
+		</Row>
+		<Row Tag="TXT_KEY_EMPIRE_WW_STAT">
+			<Text>[ICON_WAR] War Weariness </Text>
 		</Row>
 		<Row Tag="TXT_KEY_CULTURE_STAT">
 			<Text>[ICON_CULTURE] Culture</Text>

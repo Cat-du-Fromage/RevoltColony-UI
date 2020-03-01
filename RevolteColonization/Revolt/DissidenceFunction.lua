@@ -5,13 +5,14 @@
 --===============================================================
 --Globals
 --===============================================================
+--[[
 -- Route types
 AIR		= 1
 LAND	= 2
 SEA		= 3
 ROAD	= 4
 RAIL	= 5
-
+]]
 
 local DummyDissiConnection = GameInfoTypes.BUILDING_GOVERNORS_MANSION
 local DummyDissiSnowball = GameInfoTypes.BUILDING_SNOWBALL
@@ -231,4 +232,33 @@ local dissidenceGPT = 0
 	end
 	--print("DissidenceGPT ok", dissidenceGPT)
 	return dissidenceGPT
+end
+
+--==================================================================================================================
+--MAIN CALCULATION
+--==================================================================================================================
+-- unrest calculation for a colony
+function ColonyDissidence(cityID, playerID)
+local city = cityID
+local player = playerID
+local Dissidence = 0
+--print("retour ColonyDissidence", city)
+
+			local dissidenceWW = DissidenceWarWeariness(player)
+			local dissidenceGPT = DissidenceGPT(player)
+			--local dissidenceConnectionMetropole = DissidenceConnectionMetropole(city, player)
+			local dissidenceConnectionMetropoleBuild = DissidenceConnectionNumBuilding(city, player)
+			local dissidenceBaseUnHappiness = DissidenceBase(cityID, playerID)
+			local dissidenceEmpire = DissidenceEmpire(player)
+			local WLTKDBonus = ColonyWLTKD(player, city)
+			local GABonus = ColonyGoldenAge(player)
+			--
+			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) >= 50 then
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
+			print("Dissidence ok", Dissidence)
+			else
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
+			print("Dissidence ok", Dissidence)
+			end
+	return Dissidence
 end

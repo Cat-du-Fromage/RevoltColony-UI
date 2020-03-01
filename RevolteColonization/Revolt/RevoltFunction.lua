@@ -28,7 +28,7 @@ local CurrentTimer = city:GetNumBuilding(DummyTimer)
 	end
 	return CurrentTimer
 end
-
+--[[
 -- unrest calculation for a colony
 function ColonyDissidence(cityID, playerID)
 local city = cityID
@@ -54,6 +54,8 @@ local Dissidence = 0
 			end
 	return Dissidence
 end
+
+]]
 --Damage on garrison and colony
 function DamageCity(playerID, cityID, RebelLVL)
 local player = playerID

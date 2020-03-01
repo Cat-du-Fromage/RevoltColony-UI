@@ -253,14 +253,16 @@ function AreaSpawnNavalMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
 		while (not(bPlaced)) and #tPlots > 0 do
 			local iRandom = GetRandom(1, #tPlots)
 			local pPlot = tPlots[iRandom]
-			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_COAST"] or pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer) and (not(pPlot:IsNaturalWonder())) ) then
-			pPlotX = pPlot:GetX()
-			pPlotY = pPlot:GetY()
-				if rebelLVL > 1 then
-				pnavalMelee = pBarbarian:InitUnit(navalMelee, pPlotX, pPlotY)
-				pnavalMelee:JumpToNearestValidPlot()
-				pTargetPlot = pPlot
-				bPlaced = true
+			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer)) and (not(pPlot:IsNaturalWonder()) ) then
+				if (pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_COAST"] or pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_OCEAN"]) then
+				pPlotX = pPlot:GetX()
+				pPlotY = pPlot:GetY()
+
+					pnavalMelee = pBarbarian:InitUnit(navalMelee, pPlotX, pPlotY)
+					pnavalMelee:JumpToNearestValidPlot()
+					pTargetPlot = pPlot
+					bPlaced = true
+
 				end
 			end
 			table.remove(tPlots, iRandom)
@@ -282,10 +284,12 @@ function AreaSpawnNavalRangeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 
 	local pTargetPlot = nil
@@ -298,12 +302,12 @@ function AreaSpawnNavalRangeRebel(cityID, playerID, RebelLVL, NumUnit)
 			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_COAST"] or pPlot:GetTerrainType() == GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer) and (not(pPlot:IsNaturalWonder())) ) then
 			pPlotX = pPlot:GetX()
 			pPlotY = pPlot:GetY()
-				if rebelLVL > 1 then
+
 				pnavalRange = pBarbarian:InitUnit(navalRange, pPlotX, pPlotY)
 				pnavalRange:JumpToNearestValidPlot()
 				pTargetPlot = pPlot
 				bPlaced = true
-				end
+
 			end
 			table.remove(tPlots, iRandom)
 		end
@@ -318,12 +322,14 @@ function NumEarth(pCity)
     local tPlots = {}
 	local iPlayer = pCity:GetOwner()
     local iNumtoPlace = 1
-    for pLoopPlot in PlotAreaSpiralIterator(pPlot, 3, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
+    for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 	local numEarth = 0;
 	for i, pLoopPlot in pairs(tPlots) do
@@ -342,10 +348,12 @@ function NumWater(pCity)
     local iNumtoPlace = 1
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 1, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+
     end
 
 	local numWater = 0;
@@ -367,6 +375,8 @@ local player = playerID
 local city = cityID
 local rebelLVL = RebelLVL
 	--NAVAL UNIT
+	print("NUMWATER", NumWater(city))
+	print("NUMEARTH", NumEarth(city))
 	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
 		if rebelLVL == 1 then
 		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)

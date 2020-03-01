@@ -24,21 +24,22 @@
   <References />
   <Blocks />
   <Files>
-    <File md5="4B37319618F4128CF184EAB42D1FF876" import="0">ColonyOverview.lua</File>
-    <File md5="DE72265FC34DE2B8186475948D6BDCDA" import="0">ColonyOverview.xml</File>
-    <File md5="BEE5419FBA428E56998CBA8E3DD48E24" import="0">ColonyText.xml</File>
-    <File md5="55ABB9E8218BF14D027D85B97E94CAF5" import="0">Revolt2.0/NewSaveUtils.lua</File>
+    <File md5="3D01A1863D223E73CF4F99D9D4B259B5" import="0">ColonyOverview.lua</File>
+    <File md5="7F829692E81FC272D28FB428F1A153BA" import="0">ColonyOverview.xml</File>
+    <File md5="AE18C7153B6F004FD40F19D68C5222D7" import="0">ColonyText.xml</File>
+    <File md5="55ABB9E8218BF14D027D85B97E94CAF5" import="1">Revolt2.0/NewSaveUtils.lua</File>
     <File md5="A30167786B8DB92C1B9A5B9ACE8CF780" import="0">Revolt2.0/RevoltFunction2.lua</File>
     <File md5="E4A3091C1E4D40C1E57403B4DF080043" import="0">Revolt2.0/RevoltUtils.lua</File>
     <File md5="5F6028BE67C420EB321E3A866B77412D" import="0">Revolt2.0/TableSaverLoader.lua</File>
-    <File md5="8E5F258308B3B16127EE0A080E47B8DD" import="0">Revolt/animationcheatSHEET.lua</File>
-    <File md5="559230EF4CF52DCA4F9E997201E890DF" import="1">Revolt/DissidenceFunction.lua</File>
+    <File md5="21391FA109D28201D9B268FACB87F3CC" import="0">Revolt/animationcheatSHEET.lua</File>
+    <File md5="868F11FA91A1E0A2213823695AEC8262" import="1">Revolt/ColonyOverviewOutPut.lua</File>
+    <File md5="094A17769EED14E21F5E922978F99542" import="1">Revolt/DissidenceFunction.lua</File>
     <File md5="63D3E3C9B4D19E41FFA493E9F68D9D68" import="1">Revolt/LoyalityFunction.lua</File>
     <File md5="5690A1B2ACA2729FD9D55156E232AB1A" import="1">Revolt/PlotIterators.lua</File>
-    <File md5="F21C2172080CBC59C13C1A6412C68F27" import="1">Revolt/RebelsSpawn.lua</File>
-    <File md5="6C3177C88AFD95441C5E0DFAAD3FF330" import="0">Revolt/RevoltFunction.lua</File>
+    <File md5="49820D9A7D3080D2A0C4B9A169BA5ADC" import="1">Revolt/RebelsSpawn.lua</File>
+    <File md5="940F86C6885F8C6441B25693DEB21F83" import="0">Revolt/RevoltFunction.lua</File>
     <File md5="1B9D6F3251EDE2E7BE85D6F85CFE0F67" import="1">Revolt/RouteConnections.lua</File>
-    <File md5="BC9DFEEBA117B2E58DA0865FE2023476" import="0">TesteFacility.sql</File>
+    <File md5="6ADB446D0AF020D9CD7ED6B446A0A7B6" import="0">TesteFacility.sql</File>
   </Files>
   <Actions>
     <OnModActivated>
@@ -75,6 +76,11 @@
     </EntryPoint>
     <EntryPoint type="InGameUIAddin" file="Revolt/DissidenceFunction.lua">
       <Name>DissidenceFunction</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="Revolt/ColonyOverviewOutPut.lua">
+      <Name>ColonyOverViewOutPut</Name>
       <Description>
       </Description>
     </EntryPoint>

@@ -55,8 +55,32 @@
 					<Grid Size="260,27" Style="Grid9FrameTurns" Anchor="C,B"/>
 					<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_COLONY_GENERAL_MANAGEMENT}"/>
 				</Box>
-				<Box Anchor ="L,B" Offset="0,0" Size="260,232" Color="255,255,255,0" ID="ColonyGeneralManagementBox">
+				<Box Anchor ="L,B" Offset="-20,65" Size="260,232" Color="255,255,255,0" ID="ColonyGeneralManagementBox">
+					<!-- Size="290,128"   Offset="0,0" -->
 					<Label Anchor="L,C" Offset="4,0" ID="ColonyGeneralManagement" ColorSet="Beige_Black_Alpha" Font="TwCenMT16" FontStyle="Shadow"/>
+					<Stack Anchor="L,T" Offset="0,0" StackGrowth="Bottom" Padding="0">
+						<!-- Colony General Taxation -->
+						<Box Size="260,232" Color="Beige,0" Anchor="C,T">
+							<Grid Size="260,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+							<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_COLONY_GENERAL_TAXES}"/>
+							<!--  Offset="0,8"-->
+						</Box>
+						<Box Anchor="L,T" Size="290,50" Color="255,255,255,0">
+							<!-- Size="290,128" -->
+							<Label String="TXT_KEY_GENERAL_COLONY_TAX_RATE" Font="TwCenMT20" Anchor="L,T" Offset="32,8" ID="GeneralTaxSliderValue"/>
+							<!-- Offset="4,8"   DERNIER Offset="-100,50"-->
+							<Box Anchor="C,T" Size="296,40" Offset="5,28" Color="255,255,255,0" ID="GeneralTaxSliderValueToolTip">
+								<!-- Size="290,128"  Offset="0,28"-->
+								<Slider Length="250" Anchor="C,T" Style="Slider" ID="GeneralTaxSlider" WheelSteps="10"/>
+								<!-- Length="300" -->
+							</Box>
+
+							<Label Font="TwCenMT18" Anchor="L,T" Offset="4,68" ID="TaxesTurnSet" />
+							<Label Font="TwCenMT18" Anchor="L,T" Offset="4,88" ID="TaxesAvailableTurn" />
+							<Label Font="TwCenMT18" Anchor="L,T" Offset="4,108" ID="TaxesCurrentGPT" />
+						</Box>
+					</Stack>
+					<GridButton Anchor="C,B" ID="ApplyGeneralChanges" Offset="20,-90" Style="SmallButton" Size="160,32" String="TXT_KEY_APPLY_GENERAL_CHANGES" />
 				</Box>
 			</Box>
 		</Box>
@@ -101,47 +125,56 @@
 						<UpButton Offset="0.0" Style="ScrollBarUp" Anchor="R,T" AnchorSide="O,I" ID="UpButton"/>
 						<DownButton Offset="0.0" Style="ScrollBarDown" Anchor="R,B" AnchorSide="O,I" ID="DownButton"/>
 						<Stack Anchor="L,T" Offset="0,0" StackGrowth="Bottom" Padding="0">
-							<!-- Colony Population Overview -->
+							<!-- Colony Dissidence Population Overview -->
 							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
 								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
-								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_POPULATION_STAT}"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_DISSIDENCE_STAT}"/>
 							</Box>
-							<Box Anchor="L,T" Size="290,48" Color="255,255,255,0">
+							<Box Anchor="L,T" Size="290,168" Color="255,255,255,0">
 								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_POPULATION_STAT}"/>
 								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsPopulation"/>
 
-								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="Happiness" ID="ColonyStatsHappyLabel"/>
-								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsHappy"/>
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_TOTAL_DISSIDENCE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsTotalDissidence"/>
+								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_BASE_DISSIDENCE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsBaseUnhappy"/>
+								<Label Anchor="L,T" Offset="4,80" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_CONNECTION_DISSIDENCE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,80" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsConnection"/>
+								<Label Anchor="L,T" Offset="4,104" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GPT_DISSIDENCE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,104" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGPT"/>
+								<Label Anchor="L,T" Offset="4,128" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_EMPIRE_DISSIDENCE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,128" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsEmpireDissidence"/>
+								<Label Anchor="L,T" Offset="4,152" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_EMPIRE_WW_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,152" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsWarWeariness"/>
 							</Box>
-							<!-- Colony Trade Route Overview -->
+							
+							<!-- Colony Loyality Overview -->
 							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
 								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
-								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_ECONOMY}"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_LOYALITY}"/>
 							</Box>
 							<Box Anchor="L,T" Size="290,72" Color="255,255,255,0">
-								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GROSS_GPT_STAT}"/>
-								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGross"/>
+								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_WLTKD_STAT}"/>
+								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsWLTKD"/>
 
-								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GOLD_PER_TURN_STAT}"/>
-								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGold"/>
-
-								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_TRADE_ROUTES_STAT}"/>
-								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsTradeRoutes"/>
+								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GA_STAT}"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGA"/>
 							</Box>
+							
 							<!-- Colony Culture Overview -->
 							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
 								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
-								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_CULTURE_STAT}"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_OUTPUT_STAT}"/>
 							</Box>
 							<Box Anchor="L,T" Size="290,72" Color="255,255,255,0">
 								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_CULTURE_STAT}"/>
-								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsCulture"/>
+								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsCulture"/>
 
 								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_SCIENCE_STAT}"/>
-								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsScience"/>
+								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsScience"/>
 
 								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GOLD_STAT}"/>
-								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="VassalStatsGold"/>
+								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGold"/>
 							</Box>
 							<!-- Colony Religion Overview -->
 							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
@@ -154,10 +187,12 @@
 								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_FAITH_STAT}"/>
 								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsFaith"/>
 							</Box>
+							<!--
 							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
 								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
 								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_UNREST}"/>
 							</Box>
+							-->
 							<!--
 							
 							<Box Anchor="L,T" Size="290,108" Color="255,255,255,0" ID="ScienceBox">
@@ -179,9 +214,39 @@
 						</Stack>
 					</ScrollPanel>
 				</Box>
+				<!-- Colony Taxes -->
+				<Image Anchor="L,C" AnchorSide="o,i" Offset="-333,90" Texture="VerticalTrim.dds" Size="5,330"/>
+				<!-- Size="5,320   Offset="-323,80-->
+				<Box ID="ColonyManagementBox" Anchor="L,T" Size="323,318" Offset="350,152" Color="255,255,255,0">
+					<ScrollPanel Offset="0,0" AutoScrollBar="1" Size="296,271" Vertical="1" ID="ManagementScrollPanel">
+						<!-- Offset="328,152""-->
+						<!-- Scroll Controls -->
+						<ScrollBar Style="VertSlider" Length="235" Offset="0.18" Anchor="R,T" AnchorSide="O,I" ID="VertSlider"/>
+						<UpButton Offset="0.0" Style="ScrollBarUp" Anchor="R,T" AnchorSide="O,I" ID="UpButton"/>
+						<DownButton Offset="0.0" Style="ScrollBarDown" Anchor="R,B" AnchorSide="O,I" ID="DownButton"/>
+						<Stack Anchor="L,T" Offset="0,0" StackGrowth="Bottom" Padding="0">
+							<!-- Colony Taxation -->
+							<Box Size="300,45" Color="Beige,0" Anchor="C,C">
+								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
+								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_COLONY_TAXES}"/>
+							</Box>
+							<Box Anchor="L,T" Size="290,128" Color="255,255,255,0">
+								<Label String="TXT_KEY_VO_TAX_RATE" Font="TwCenMT20" Anchor="L,T" Offset="4,8" ID="TaxSliderValue"/>
+								<Box Anchor="C,T" Size="296,40" Offset="0,28" Color="255,255,255,0" ID="TaxSliderValueToolTip">
+									<Slider Length="300" Anchor="C,T" Style="Slider" ID="TaxSlider" WheelSteps="10"/>
+								</Box>
+
+								<Label Font="TwCenMT18" Anchor="L,T" Offset="4,68" ID="TaxesTurnSet" />
+								<Label Font="TwCenMT18" Anchor="L,T" Offset="4,88" ID="TaxesAvailableTurn" />
+								<Label Font="TwCenMT18" Anchor="L,T" Offset="4,108" ID="TaxesCurrentGPT" />
+							</Box>
+						</Stack>
+					</ScrollPanel>
+					<GridButton Anchor="L,B" ID="ApplyChanges" Offset="0,0" Style="SmallButton" Size="160,45" String="TXT_KEY_APPLY_CHANGES" />
+				</Box>
 			</Box>
 		</Box>
-		
+		<!-- NUMBER COLONIES  -->
 		<Box Anchor="C,B" AnchorSide="I.I" Offset="0,54" Size="927,56" Color="255,255,255,0">
 			<Label Anchor="R,T" Offset="400,16" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="NumColonies"/>
 			<Label Anchor="R,T" Offset="400,36" Font="TwCenMT18" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" ID="NumColoniesWorld"/>
@@ -194,7 +259,30 @@
 		<Image Anchor="C,B" Offset="0,110" Texture="HorizontalTrim.dds" Size="927.5"/>
 
 	</Grid>
-	
+	<!-- Confirmation Popup -->
+	<Box Color="Black.200" Size="Full.Full" ID="Confirm" Hidden="1" ConsumeMouseOver="1" ConsumeMouseButton="1">
+		<Grid Size="500,380" Anchor="C,C" Offset="0,0" Padding="0,20" Style="Grid9DetailFive140" Hidden="0">
+			<!-- Side treatments -->
+			<Box Style="MenuLeftSideTreatment"/>
+			<Box Style="MenuRightSideTreatment"/>
+			<Image Anchor="C,T" AnchorSide="I.O" Offset="0,-14" Size="256,64" Texture="Top512IconTrim.dds">
+				<Image Anchor="C,C" Offset="0,-6" Size="80,80" Texture="NotificationFrameBase.dds">
+					<AlphaAnim Anchor="C,C" Offset="0,0" Size="80,80" Texture="assets\UI\Art\Notification\NotificationGenericGlow.dds" Pause="0" Cycle="Bounce" Speed="1" AlphaStart="1" AlphaEnd=".5"/>
+				</Image>
+			</Image>
+			<Label Anchor="C,T" ID="ConfirmLabel" Offset="0,74" WrapWidth="440" String="TXT_KEY_CONFIRM_LIBERATE" Font="TwCenMT22" ColorSet="Beige_Black_Alpha" FontStyle="Shadow"/>
+			<Stack Anchor="C,B" Offset="0,80" Padding="24" StackGrowth="Bottom" ID="ButtonStack">
+				<!-- Yes Button  -->
+				<GridButton Style="BaseButton" ID="Yes" Size="400,42" Anchor="C,T" Offset="0,0" Hidden="0">
+					<Label Anchor="C,C" Offset="0,0" String="TXT_KEY_YES_BUTTON" ColorSet="Beige_Black" Font="TwCenMT24" FontStyle="Shadow"/>
+				</GridButton>
+				<!-- No Button  -->
+				<GridButton Style="BaseButton" ID="No" Size="400,42" Anchor="C,T" Offset="0,0" Hidden="0">
+					<Label Anchor="C,C" Offset="0,0" String="TXT_KEY_NO_BUTTON" ColorSet="Beige_Black" Font="TwCenMT24" FontStyle="Shadow"/>
+				</GridButton>
+			</Stack>
+		</Grid>
+	</Box>
 	<!-- Colony Button Instance -->
 	<Instance Name="ColonyButtonInstance">
 		<Button Size="224,58" Anchor="L,T" ID="ColonyButton">
