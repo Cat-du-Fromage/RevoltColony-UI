@@ -17,7 +17,7 @@ local player = playerID
 local city = cityID
 local rebelLVL = RebelLVL
 local CurrentTimer = city:GetNumBuilding(DummyTimer)
-	if CurrentTimer == 4 then -- remet le timer à 0 quand arrivé à max
+	if CurrentTimer == 11 then -- remet le timer à 0 quand arrivé à max
 		city:SetNumRealBuilding(DummyTimer, 0)
 	else
 		if rebelLVL >= 1 then
@@ -28,34 +28,7 @@ local CurrentTimer = city:GetNumBuilding(DummyTimer)
 	end
 	return CurrentTimer
 end
---[[
--- unrest calculation for a colony
-function ColonyDissidence(cityID, playerID)
-local city = cityID
-local player = playerID
-local Dissidence = 0
---print("retour ColonyDissidence", city)
 
-			local dissidenceWW = DissidenceWarWeariness(player)
-			local dissidenceGPT = DissidenceGPT(player)
-			--local dissidenceConnectionMetropole = DissidenceConnectionMetropole(city, player)
-			local dissidenceConnectionMetropoleBuild = DissidenceConnectionNumBuilding(city, player)
-			local dissidenceBaseUnHappiness = DissidenceBase(cityID, playerID)
-			local dissidenceEmpire = DissidenceEmpire(player)
-			local WLTKDBonus = ColonyWLTKD(player, city)
-			local GABonus = ColonyGoldenAge(player)
-			--
-			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) >= 50 then
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
-			print("Dissidence ok", Dissidence)
-			else
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
-			print("Dissidence ok", Dissidence)
-			end
-	return Dissidence
-end
-
-]]
 --Damage on garrison and colony
 function DamageCity(playerID, cityID, RebelLVL)
 local player = playerID
@@ -81,11 +54,10 @@ function MainFunction(playerID) --XXXXXXXXXXXXXXXXXXXXXXX mettre condition tech 
 local buildingGovernorsMansionID = GameInfoTypes["BUILDING_JFD_GOVERNORS_MANSION"]
 local rebelLVL = 0
 local player = Players[playerID]
---local garrisonunit = city:GetGarrisonedUnit()
 
-local SpawnTimer = 3
+local SpawnTimer = 10
 if player:IsHuman() == true then
-	--if player:HasTech(GameInfoTypes["TECH_ASTRONOMY"] and player:CountNumBuildings(buildingGovernorsMansionID) > 0) then
+	if player:HasTech(GameInfoTypes["TECH_ASTRONOMY"] and player:CountNumBuildings(buildingGovernorsMansionID) > 0) then
 		for city in player:Cities() do
 				if city:IsColony() == true then
 				local dissidenceConnectionMetropole = DissidenceConnectionMetropole(city, player)
@@ -142,8 +114,7 @@ if player:IsHuman() == true then
 						end
 				end
 		end
-	--end
-	print(playerID, cityID, "it works colonyDissidence")
+	end
 end
 end
 GameEvents.PlayerDoTurn.Add(MainFunction)

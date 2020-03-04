@@ -71,7 +71,7 @@
 							<!-- Offset="4,8"   DERNIER Offset="-100,50"-->
 							<Box Anchor="C,T" Size="296,40" Offset="5,28" Color="255,255,255,0" ID="GeneralTaxSliderValueToolTip">
 								<!-- Size="290,128"  Offset="0,28"-->
-								<Slider Length="250" Anchor="C,T" Style="Slider" ID="GeneralTaxSlider" WheelSteps="10"/>
+								<Slider Length="250" Anchor="C,T" Style="Slider" ID="GeneralTaxSlider" WheelSteps="5"/>
 								<!-- Length="300" -->
 							</Box>
 
@@ -130,7 +130,7 @@
 								<Grid Size="320,27" Style="Grid9FrameTurns" Anchor="C,B"/>
 								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_DISSIDENCE_STAT}"/>
 							</Box>
-							<Box Anchor="L,T" Size="290,168" Color="255,255,255,0">
+							<Box Anchor="L,T" Size="290,178" Color="255,255,255,0">
 								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_POPULATION_STAT}"/>
 								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsPopulation"/>
 
@@ -146,6 +146,8 @@
 								<Label Anchor="R,T" Offset="4,128" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsEmpireDissidence"/>
 								<Label Anchor="L,T" Offset="4,152" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_EMPIRE_WW_STAT}" ID="ColonyStatsHappyLabel"/>
 								<Label Anchor="R,T" Offset="4,152" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsWarWeariness"/>
+								<Label Anchor="L,T" Offset="4,176" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GENERAL_TAXE_STAT}" ID="ColonyStatsHappyLabel"/>
+								<Label Anchor="R,T" Offset="4,176" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGeneralTaxe"/>
 							</Box>
 							
 							<!-- Colony Loyality Overview -->
@@ -215,7 +217,7 @@
 					</ScrollPanel>
 				</Box>
 				<!-- Colony Taxes -->
-				<Image Anchor="L,C" AnchorSide="o,i" Offset="-333,90" Texture="VerticalTrim.dds" Size="5,330"/>
+				<Image Anchor="L,C" AnchorSide="o,i" Offset="-335,90" Texture="VerticalTrim.dds" Size="5,330"/>
 				<!-- Size="5,320   Offset="-323,80-->
 				<Box ID="ColonyManagementBox" Anchor="L,T" Size="323,318" Offset="350,152" Color="255,255,255,0">
 					<ScrollPanel Offset="0,0" AutoScrollBar="1" Size="296,271" Vertical="1" ID="ManagementScrollPanel">
@@ -243,6 +245,7 @@
 						</Stack>
 					</ScrollPanel>
 					<GridButton Anchor="L,B" ID="ApplyChanges" Offset="0,0" Style="SmallButton" Size="160,45" String="TXT_KEY_APPLY_CHANGES" />
+					<GridButton Anchor="R,B" ID="LiberateColony" Offset="0,0" Style="SmallButton" Size="160,45" String="TXT_KEY_VO_LIBERATE_COLONY" />
 				</Box>
 			</Box>
 		</Box>

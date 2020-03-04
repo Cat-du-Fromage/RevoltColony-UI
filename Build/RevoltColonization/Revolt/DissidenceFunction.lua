@@ -123,7 +123,7 @@ function DissidenceConnectionMetropole(cityID, playerID)
 
 print("start colony connection")
 
-local maxDistanceLand = 2
+local maxDistanceLand = 6
 local maxDistanceRoad = 9
 local maxDistanceRail = 12
 local maxDistanceSea = 10
@@ -145,23 +145,23 @@ local dissidenceConnection = colony:GetNumBuilding(DummyDissiConnection)
 			if isCityConnected(player, colony, metropole, "Land", true, nil, PathBlocked) then
 				-- distance by land plot
 				landDist = getRouteLength()-1
-				print ("    - Land distance : ", landDist)
+				--print ("    - Land distance : ", landDist)
 				-- distance by road
 				if isCityConnected(player, colony, metropole, "Road", true, nil, PathBlocked) then
 					roadDist = getRouteLength()-1
-					print ("    - Road distance : ", roadDist)
+					--print ("    - Road distance : ", roadDist)
 				end
 				-- distance by rail
 				if isCityConnected(player, colony, metropole, "Railroad", true, nil, PathBlocked) then
 					railDist = getRouteLength()-1
-					print ("    - Rail distance : " , railDist)
+					--print ("    - Rail distance : " , railDist)
 				end
 			else
 				-- distance by sea
 				local seaStr = "Ocean" -- to do : add a check for ability to cross ocean
 				if isCityConnected(player, colony, metropole, seaStr, true, nil, PathBlocked) then
 					seaDist = getRouteLength()-1
-					print ("    - Maritime distance : ", seaDist)
+					--print ("    - Maritime distance : ", seaDist)
 				end
 			end
 		--Calcul si la colony n'est pas trop loin de la métropole
@@ -212,7 +212,7 @@ end
 function DissidenceWarWeariness(playerID)
 local dissidenceWW = 0
 local player = playerID
-local dissidenceWW = player:GetWarWeariness()
+local dissidenceWW = (player:GetWarWeariness() / 3)
 print("DissidenceWarWeariness ok", dissidenceWW)
 return dissidenceWW
 end
@@ -234,6 +234,37 @@ local dissidenceGPT = 0
 	return dissidenceGPT
 end
 
+function GeneralTaxes(playerID)
+local DummyGeneralTaxeValue = GameInfoTypes.BUILDING_GENERAL_TAXE_VALUE
+if playerID:CountNumBuildings(DummyGeneralTaxeValue) ~= 0 then
+return true
+else
+return false
+end
+end
+
+function DissidenceGeneralTaxes(playerID)
+local player = Players[playerID]
+local dissidenceGeneraltaxe = 0
+local TaxeValue = load(playerID, "GeneralTaxeValue")
+	if GeneralTaxes(playerID) == true and TaxeValue ~= 0 then
+		if TaxeValue == 10 then
+		dissidenceGeneraltaxe = 5
+		elseif TaxeValue == 20 then
+		dissidenceGeneraltaxe = 10
+		elseif TaxeValue == 30 then
+		dissidenceGeneraltaxe = 15
+		elseif TaxeValue == 40 then
+		dissidenceGeneraltaxe = 20
+		elseif TaxeValue == 50 then
+		dissidenceGeneraltaxe = 25
+		end
+	end
+	return dissidenceGeneraltaxe
+end
+
+
+
 --==================================================================================================================
 --MAIN CALCULATION
 --==================================================================================================================
@@ -250,14 +281,16 @@ local Dissidence = 0
 			local dissidenceConnectionMetropoleBuild = DissidenceConnectionNumBuilding(city, player)
 			local dissidenceBaseUnHappiness = DissidenceBase(cityID, playerID)
 			local dissidenceEmpire = DissidenceEmpire(player)
+			local dissidenceGeneraltaxe = DissidenceGeneralTaxes(player)
+
 			local WLTKDBonus = ColonyWLTKD(player, city)
 			local GABonus = ColonyGoldenAge(player)
 			--
-			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) >= 50 then
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
+			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) >= 50 then
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - (WLTKDBonus + GABonus)
 			print("Dissidence ok", Dissidence)
 			else
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire) - (WLTKDBonus + GABonus)
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - (WLTKDBonus + GABonus)
 			print("Dissidence ok", Dissidence)
 			end
 	return Dissidence

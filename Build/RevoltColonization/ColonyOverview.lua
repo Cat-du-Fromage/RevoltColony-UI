@@ -8,9 +8,10 @@ include( "TechHelpInclude" );
 include("LoyalityFunction.lua")
 include("DissidenceFunction.lua")
 include("ColonyOverviewOutPut.lua")
+include("NewSaveUtils.lua")
 
 local g_ColonyButton = InstanceManager:new( "ColonyButtonInstance", "ColonyButton", Controls.ColonyStack );
-
+include( "SaveUtils.lua" ); MY_MOD_NAME = "RevoltColonization";
 --=========================================================================================================
 --How Many colonies do i have?
 --=========================================================================================================
@@ -154,6 +155,7 @@ end
 function UpdateColonyList()
 	local g_iPlayer = Players[Game.GetActivePlayer()]
 	local player = Players[g_iPlayer];
+	local numColonies = g_iPlayer:CountNumBuildings(GameInfoTypes["BUILDING_JFD_GOVERNORS_MANSION"])
 	if (ContextPtr:IsHidden()) then
 		return;
 	end
@@ -193,6 +195,34 @@ function UpdateColonyList()
 					controlTable.ColonyButton:RegisterCallback( Mouse.eLClick, ColonySelected );
 			end
 	end
+
+	--GENERAL TAXE
+	if( CanSetGeneralTaxe(g_iPlayer) == false or numColonies == 0 ) then
+	Controls.GeneralTaxSlider:SetDisabled( true );
+	Controls.ApplyGeneralChanges:SetDisabled( true );
+	--Controls.TaxSliderValueToolTip:LocalizeAndSetToolTip( "TXT_KEY_VO_TAX_TOO_SOON", iNumTurnsForTax, iNumTurnsLeft );
+	else
+		Controls.GeneralTaxSlider:SetDisabled( false );
+		Controls.ApplyGeneralChanges:SetDisabled( false );
+		--Controls.TaxSliderValueToolTip:SetToolTipString( "" );
+	end
+	--Current taxe Applied
+	--[[
+	if GetPersistentProperty("TaxeValue") ~= nil then
+	Controls.GeneralTaxSliderValue:SetValue(GetPersistentProperty("TaxeValue"))
+	end
+	]]
+	if load(g_iPlayer, "TaxeTimer") ~= nil then
+	Controls.GeneralTaxSlider:SetValue(load(g_iPlayer, "GeneralTaxeValue"))
+	end
+	-- ON APPLY CHANGE
+	--Controls.ApplyGeneralChanges:SetDisabled( true );
+	Controls.ApplyGeneralChanges:SetVoid1( g_iPlayer );
+	Controls.ApplyGeneralChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
+	print("player", player)
+	print("g_iPlayer", g_iPlayer)
+	Controls.ApplyGeneralChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
+	-------------------------------------------------------------------------------------
 	Controls.ColonyStack:CalculateSize();
 
 	Controls.ScrollPanel:CalculateInternalSize();
@@ -252,6 +282,8 @@ function ColonySelected( iCity ) -- ID
 	local iNumTurnsForTax = Game.GetMinimumVassalTaxTurns();
 	local iNumTurnsSinceSet = g_pTeam:GetNumTurnsSinceVassalTaxSet( ePlayer );
 	local iNumTurnsLeft = iNumTurnsForTax - iNumTurnsSinceSet;
+	]]
+	--[[
 			--ETAPE A DEFINIR																	NOUS INDIQUE SI ON PEUT TAXER --> DEFINIR LES CONDITION (SUREMENT LE BATIMENT "TIMER_TAXE")
 	if( CanSetGeneralTaxe(g_iPlayer) == false ) then
 		Controls.GeneralTaxSlider:SetDisabled( true );
@@ -260,7 +292,8 @@ function ColonySelected( iCity ) -- ID
 		Controls.GeneralTaxSlider:SetDisabled( false );
 		--Controls.TaxSliderValueToolTip:SetToolTipString( "" );
 	end
-	
+	]]
+	--[[
 	--POSSIBLEMENT NON UTILISE
 	local iTurnTaxesSet = Game.GetGameTurn() - iNumTurnsSinceSet;
 	local iTurnTaxesAvailable = Game.GetGameTurn() + iNumTurnsLeft;
@@ -286,26 +319,22 @@ function ColonySelected( iCity ) -- ID
 	Controls.TaxSliderValue:LocalizeAndSetText("TXT_KEY_VO_TAX_RATE", g_pTeam:GetVassalTax( ePlayer ) );
 	]]
 	DoVassalStatistics( pCity, g_iPlayer );
+	--[[
 	-- ON APPLY CHANGE
 	Controls.ApplyGeneralChanges:SetDisabled( true );
 	Controls.ApplyGeneralChanges:SetVoid1( g_iPlayer );
 	Controls.ApplyGeneralChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
 	Controls.ApplyGeneralChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
+	]]
 
-	--[[
 	-- Liberate Vassal button
-	local tooltipStr = Locale.ConvertTextKey("TXT_KEY_VO_LIBERATE_VASSAL_TT", pVassalTeam:GetName());
-	if( not g_pTeam:CanLiberateVassal( iVassalTeam ) ) then
-		Controls.LiberateCiv:SetDisabled( true );
-		tooltipStr = tooltipStr .. "[NEWLINE][NEWLINE]" .. Locale.ConvertTextKey("TXT_KEY_VO_LIBERATE_VASSAL_TOO_SOON", Game.GetMinimumVassalLiberateTurns(), Game.GetMinimumVassalLiberateTurns() - pVassalTeam:GetNumTurnsIsVassal( g_iTeam ));
-	else
-		Controls.LiberateCiv:SetDisabled( false );
-	end
+	local tooltipStr = Locale.ConvertTextKey("TXT_KEY_VO_LIBERATE_COLONY_TT", pCity:GetName());
+	Controls.LiberateColony:SetDisabled( false );
 
-	Controls.LiberateCiv:SetToolTipString( tooltipStr );
-	Controls.LiberateCiv:SetVoid1( iVassalTeam );
-	Controls.LiberateCiv:RegisterCallback( Mouse.eLClick, OnLiberateCivClicked );
-		]]
+	Controls.LiberateColony:SetToolTipString( tooltipStr );
+	Controls.LiberateColony:SetVoid1( iCity );
+	Controls.LiberateColony:RegisterCallback( Mouse.eLClick, OnLiberateColonyClicked );
+
 	Controls.StatsScrollPanel:CalculateInternalSize();
 	Controls.StatsScrollPanel:ReprocessAnchoring();
 
@@ -319,7 +348,9 @@ end
 	ContextPtr:SetHide(true);
 
 
-
+--=========================================================================================================
+-- DISSIDENCE/LOYALITY COLONY UI
+--=========================================================================================================
 function DoVassalStatistics( pCity, playerID )
 local city = pCity
 --print("CityID",city)
@@ -332,6 +363,7 @@ local dissidenceBaseUnHappiness = DissidenceBase(city, player)
 local dissidenceGPT = DissidenceGPT(player)
 local dissidenceEmpire = DissidenceEmpire(player)
 local dissidenceWW = DissidenceWarWeariness(player)
+local dissidenceGeneraltaxe = DissidenceGeneralTaxes(player)
 
 local cityYieldGold = city:GetYieldRateTimes100( YieldTypes.YIELD_GOLD ) / 100
 local cityYieldScience = city:GetYieldRateTimes100( YieldTypes.YIELD_SCIENCE ) / 100
@@ -347,6 +379,7 @@ local GABonus = ColonyGoldenAge(player)
 	Controls.ColonyStatsGPT:SetText( dissidenceGPT );
 	Controls.ColonyStatsEmpireDissidence:SetText( dissidenceEmpire );
 	Controls.ColonyStatsWarWeariness:SetText( dissidenceWW );
+	Controls.ColonyStatsGeneralTaxe:SetText( dissidenceGeneraltaxe );
 
 	-- Population Loyality
 	Controls.ColonyStatsWLTKD:SetText( WLTKDBonus );
@@ -357,7 +390,9 @@ local GABonus = ColonyGoldenAge(player)
 	Controls.ColonyStatsScience:SetText(cityYieldScience);
 	Controls.ColonyStatsCulture:SetText(cityYieldCulture);
 end
-
+--=========================================================================================================
+-- GENERAL COLONY TAXE
+--=========================================================================================================
 --=========================================================================================================
 -- General Colony Tax Slider
 --=========================================================================================================
@@ -371,17 +406,18 @@ end
 Controls.GeneralTaxSlider:RegisterSliderCallback( GeneralTaxSliderUpdate );
 
 --fonction qui permet de changer les taxes????
+--[[
 function UpdateApplyChanges()
-	Controls.ApplyGeneralChanges:SetDisabled( true--[[ PercentToTaxValue(Controls.GeneralTaxSlider:GetValue() ) == g_pTeam:GetVassalTax(g_SelectedVassal)]] );
+	Controls.ApplyGeneralChanges:SetDisabled( PercentToTaxValue(Controls.GeneralTaxSlider:GetValue() ) == g_pTeam:GetVassalTax(g_SelectedVassal) );
 end
-
+]]
 -- convert percentage to tax tvalue
 function PercentToTaxValue( fPercent )
 	local iMin = 0
 	local iMax = 50
 
 	-- desired number of steps we want the meter to grow
-	local iStepIncrease = 5;
+	local iStepIncrease = 10;
 	local iStepsNeeded = (iMax / iStepIncrease);
 	
 	fPercent = math.floor( fPercent * iStepsNeeded ) * (1 / iStepsNeeded);
@@ -398,11 +434,26 @@ end
 --=========================================================================================================
 -- BUTTON CLICKED
 --=========================================================================================================
+function OnLiberateColonyClicked( cityID )
+	local player = Players[Game.GetActivePlayer()];
+	print( "Clicked on Liberate Civ: ", cityID )
+	local pCity = player:GetCityByID(cityID)
+	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_COLONY_CONFIRM_LIBERATE", pCity:GetName() );
+	Controls.Confirm:SetHide( false );
+	Controls.BGBlock:SetHide( true );
+	
+	Controls.Yes:SetVoid1( 0 );
+	Controls.Yes:SetVoid2( cityID );
+	Controls.Yes:RegisterCallback( Mouse.eLClick, OnYes );
+end
 
 function OnApplyGeneralChangesClicked( playerID )
-	local iTaxValue = PercentToTaxValue( Controls.TaxSlider:GetValue() );
-
-	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE", iTaxValue, 30--[[NUM TURN]] );
+	local player = Players[Game.GetActivePlayer()];
+	local iTaxValue = PercentToTaxValue( Controls.GeneralTaxSlider:GetValue() );
+	local TaxeIncome = (ColoniesIncome(player))*(iTaxValue/100)
+	print( "Clicked on apply taxes(player): ", player )
+	print( "Clicked on apply taxes: (playerID)", playerID )
+	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE", iTaxValue, TaxeIncome);
 	Controls.Confirm:SetHide( false );
 	Controls.BGBlock:SetHide( true );
 	
@@ -415,6 +466,7 @@ end
 -----------------------------------------------
 function OnClose()
     UIManager:DequeuePopup( ContextPtr );
+	OnClosingOK()
 end
 Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnClose);
 -----------------------------------------------
@@ -423,13 +475,19 @@ Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnClose);
 function OnYes( type, iValue )
 	Controls.Confirm:SetHide(true);
 	Controls.BGBlock:SetHide(false);
-
+	-- Liberation
+	if( type == 0 ) then
+		ColonyLiberation( iValue );
+		OnClose();
 	-- Apply Tax Change
-	if ( type == 1 ) then
+	elseif ( type == 1 ) then
+	local player = Players[iValue]
 		local iTaxRate = PercentToTaxValue( Controls.GeneralTaxSlider:GetValue() );
-		--g_pTeam:DoApplyVassalTax( iValue, iTaxRate );
-		--VassalSelected( iValue );
-		--UpdateApplyChanges();
+		print( "VALEUR TAXE EN %%%%", iTaxRate )
+		--SetPersistentProperty("TaxeValue", iTaxRate)
+		save( player, "GeneralTaxeValue", iTaxRate )
+		DoApplyColonyGeneralTaxe(iValue)
+		OnClosingOK()
 	end
 end
 -----------------------------------------------

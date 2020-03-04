@@ -120,10 +120,12 @@ function AreaSpawnMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 
 	local pTargetPlot = nil
@@ -158,10 +160,12 @@ function AreaSpawnRangeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 
 	local pTargetPlot = nil
@@ -198,10 +202,12 @@ function AreaSpawnSiegeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 
 	local pTargetPlot = nil
@@ -240,10 +246,12 @@ function AreaSpawnNavalMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
+		]]
     end
 
 	local pTargetPlot = nil
@@ -348,12 +356,12 @@ function NumWater(pCity)
     local iNumtoPlace = 1
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 1, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-
+		--[[
 		if pLoopPlot:GetOwner() == iPlayer then
 			table.insert(tPlots, pLoopPlot)
 			table.insert(tPlots, pLoopPlot)
 		end
-
+		]]
     end
 
 	local numWater = 0;
@@ -375,8 +383,8 @@ local player = playerID
 local city = cityID
 local rebelLVL = RebelLVL
 	--NAVAL UNIT
-	print("NUMWATER", NumWater(city))
-	print("NUMEARTH", NumEarth(city))
+	--print("NUMWATER", NumWater(city))
+	--print("NUMEARTH", NumEarth(city))
 	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
 		if rebelLVL == 1 then
 		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)

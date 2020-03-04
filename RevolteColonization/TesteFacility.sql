@@ -8,7 +8,6 @@ VALUES		('BUILDING_PALACE',	'UNIT_JFD_COLONIST',		'2');
 
 
 
-
 --===========================================
  --Dummy Metropole
  --===========================================
@@ -79,3 +78,14 @@ VALUES		('BUILDINGCLASS_GENERAL_TAXE', 'BUILDING_GENERAL_TAXE', 1);
 INSERT INTO Buildings
 			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
 VALUES		('BUILDING_GENERAL_TAXE','BUILDINGCLASS_GENERAL_TAXE',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_VALUE', 'BUILDING_GENERAL_TAXE_VALUE', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_VALUE','BUILDINGCLASS_GENERAL_TAXE_VALUE',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);

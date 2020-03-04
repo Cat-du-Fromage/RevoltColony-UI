@@ -6,7 +6,7 @@
 			<Text>Colony Overview</Text>
 		</Row>
 		<Row Tag="TXT_KEY_COLONY_NOT_STARTED_YET">
-			<Text>You need Compass to establish colonies</Text>
+			<Text>Available at Renaissance</Text>
 		</Row>
 		<Row Tag="TXT_KEY_YOUR_COLONIES">
 			<Text>YOUR COLONIES</Text>
@@ -52,6 +52,15 @@
 			<Text>Are you sure you want to apply a tax rate of {1_TaxRate} to {2_ColonyName}? You cannot change this value for {3_NumTurns} Turns. The tax will be applied on the following turn. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]</Text>
 		</Row>
 		-->
+		<Row Tag="TXT_KEY_VO_LIBERATE_COLONY">
+			<Text>Liberate Colony</Text>
+		</Row>
+		<Row Tag="TXT_KEY_VO_LIBERATE_COLONY_TT">
+			<Text>Liberate this Colony, freeing them from your control. This is a peaceful action, will in a war since barbarian are savage beast, but at least you won't have to deal with this uncivilised city.[NEWLINE][NEWLINE][COLOR_WARNING_TEXT]After performing this action, {1_CityName} will be a barbarian city. You cannot undo this action.[ENDCOLOR]</Text>
+		</Row>
+		<Row Tag="TXT_KEY_COLONY_CONFIRM_LIBERATE">
+			<Text>Are you sure you want to liberate {1_CityName}? This will create a hostile barbarian city. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]</Text>
+		</Row>
 		<!-- COLONY GENERAL MANAGEMENT  -->
 		<Row Tag="TXT_KEY_COLONY_GENERAL_TAXES">
 			<Text>General Taxation</Text>
@@ -66,7 +75,7 @@
 			<Text>Tax Rate: {1_Num}%</Text>
 		</Row>
 		<Row Tag="TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE">
-			<Text>Are you sure you want to apply a tax rate of {1_TaxRate}? You cannot change this value for {3_NumTurns} Turns. The tax will be applied on the following turn. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]</Text>
+			<Text>Are you sure you want to apply a tax rate of {1_TaxRate}? You cannot change this value for 30 Turns. The tax will be applied on the following turn. [COLOR_WARNING_TEXT]This action CANNOT be undone.[ENDCOLOR]You will recieve {2_TaxeIn} [ICON_GOLD] GPT.</Text>
 		</Row>
 		<!-- LOYALITY -->
 		<Row Tag="TXT_KEY_LOYALITY">
@@ -105,6 +114,9 @@
 		</Row>
 		<Row Tag="TXT_KEY_EMPIRE_WW_STAT">
 			<Text>[ICON_WAR] War Weariness </Text>
+		</Row>
+		<Row Tag="TXT_KEY_GENERAL_TAXE_STAT">
+			<Text>[ICON_INVEST] General Taxe </Text>
 		</Row>
 		<Row Tag="TXT_KEY_CULTURE_STAT">
 			<Text>[ICON_CULTURE] Culture</Text>
