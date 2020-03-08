@@ -13,10 +13,11 @@ SEA		= 3
 ROAD	= 4
 RAIL	= 5
 ]]
-
+include("ColonyOverviewOutPut.lua")
+include("LoyalityFunction.lua")
 local DummyDissiConnection = GameInfoTypes.BUILDING_GOVERNORS_MANSION
 local DummyDissiSnowball = GameInfoTypes.BUILDING_SNOWBALL
-
+WARN_NOT_SHARED = false; include( "SaveUtils" ); MY_MOD_NAME = "RevoltColonization";
 --===============================================================
 --Calculs dissidence
 --===============================================================
@@ -212,8 +213,13 @@ end
 function DissidenceWarWeariness(playerID)
 local dissidenceWW = 0
 local player = playerID
-local dissidenceWW = (player:GetWarWeariness() / 3)
-print("DissidenceWarWeariness ok", dissidenceWW)
+--local dissidenceWW = (player:GetWarWeariness() / 3)
+	if dissidenceWW >= 20 then
+	dissidenceWW = 20
+	print("DissidenceWarWeariness ok", dissidenceWW)
+	else
+	dissidenceWW = (player:GetWarWeariness() / 3)
+	end
 return dissidenceWW
 end
 
@@ -221,14 +227,26 @@ end
 --==================================================================================================================
 --Negativ GPT
 --==================================================================================================================
+function ConversionGPT(playerID)
+local player = playerID
+local NegativGPT = 0
+	if player:CalculateGoldRate() < 0 then
+	local playerGPT = player:CalculateGoldRate()
+	NegativGPT = NegativGPT - playerGPT
+	print("DissidenceGPT ok", dissidenceGPT)
+	end
+return NegativGPT
+end
+
 function DissidenceGPT(playerID)
 --local player = Players[Game.GetActivePlayer()]
 local player = playerID
 local dissidenceGPT = 0
-	if player:CalculateGoldRate() < 0 then
-	local playerGPT = player:CalculateGoldRate()
-	dissidenceGPT = dissidenceGPT - playerGPT
+	if ConversionGPT(player) >= 20 then
+	dissidenceGPT = 20
 	print("DissidenceGPT ok", dissidenceGPT)
+	else
+	dissidenceGPT = ConversionGPT(player)
 	end
 	--print("DissidenceGPT ok", dissidenceGPT)
 	return dissidenceGPT
@@ -236,7 +254,8 @@ end
 
 function GeneralTaxes(playerID)
 local DummyGeneralTaxeValue = GameInfoTypes.BUILDING_GENERAL_TAXE_VALUE
-if playerID:CountNumBuildings(DummyGeneralTaxeValue) ~= 0 then
+local iPlayer = Players[Game.GetActivePlayer()]
+if iPlayer:CountNumBuildings(DummyGeneralTaxeValue) ~= 0 then
 return true
 else
 return false
@@ -246,8 +265,8 @@ end
 function DissidenceGeneralTaxes(playerID)
 local player = Players[playerID]
 local dissidenceGeneraltaxe = 0
-local TaxeValue = load(playerID, "GeneralTaxeValue")
-	if GeneralTaxes(playerID) == true and TaxeValue ~= 0 then
+local TaxeValue = GeneralTaxeDummyValue(player)
+	if GeneralTaxes(player) == true and TaxeValue ~= 0 then
 		if TaxeValue == 10 then
 		dissidenceGeneraltaxe = 5
 		elseif TaxeValue == 20 then
@@ -283,14 +302,15 @@ local Dissidence = 0
 			local dissidenceEmpire = DissidenceEmpire(player)
 			local dissidenceGeneraltaxe = DissidenceGeneralTaxes(player)
 
-			local WLTKDBonus = ColonyWLTKD(player, city)
-			local GABonus = ColonyGoldenAge(player)
+			local loyalityBonus = LoyalityBonus(city, player)
+			--local WLTKDBonus = ColonyWLTKD(player, city)
+			--local GABonus = ColonyGoldenAge(player)
 			--
 			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) >= 50 then
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - (WLTKDBonus + GABonus)
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - loyalityBonus--(WLTKDBonus + GABonus)
 			print("Dissidence ok", Dissidence)
 			else
-			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - (WLTKDBonus + GABonus)
+			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - loyalityBonus--(WLTKDBonus + GABonus)
 			print("Dissidence ok", Dissidence)
 			end
 	return Dissidence

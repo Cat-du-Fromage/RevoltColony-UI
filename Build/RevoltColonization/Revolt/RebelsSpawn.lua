@@ -383,8 +383,6 @@ local player = playerID
 local city = cityID
 local rebelLVL = RebelLVL
 	--NAVAL UNIT
-	--print("NUMWATER", NumWater(city))
-	--print("NUMEARTH", NumEarth(city))
 	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
 		if rebelLVL == 1 then
 		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)
@@ -420,3 +418,77 @@ local rebelLVL = RebelLVL
 
 
 end
+
+
+
+--=========================================================================================
+--Function Main 2.0
+--=========================================================================================
+--[[
+function MainSpawnRebels(playerID, cityID, RebelLVL)
+local player = playerID
+local city = cityID
+local rebelLVL = RebelLVL
+local reservedCS = load("ReservedCS")
+local colonyOwnerID = reservedCS[rebelID].Reference
+
+	if reservedCS[rebelID].Type == CultureType(playerID) then
+	originalType = reservedCS[rebelID].Type
+	end
+
+local cultureType = CultureType(playerID)
+
+local freeSlots, rebelID = GetFreeSlotsAndRebelID(reservedCS, playerID, cultureType)
+local rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
+
+	if not rebelID then
+		if #freeSlots > 0 then
+			
+			rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
+
+		else
+			print ("              - WARNING : No free slot !!!")
+			local damage = CITY_DAMAGE_REVOLUTION + math.random( 0, CITY_DAMAGE_REVOLUTION_VAR )
+			city:ChangeDamage(damage)
+			return false -- can't set rebelID
+		end
+	end
+local rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
+
+	--NAVAL UNIT
+	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
+		if rebelLVL == 1 then
+		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 2 then
+		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)
+		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 3 or rebelLVL == 4 then
+		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 2)
+		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 5 then
+		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 2)
+		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 2)
+		end
+
+	else
+	--LAND UNIT
+		if rebelLVL == 1 then
+		AreaSpawnMeleeRebel(city, player, rebelLVL, 1)
+		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 2 then
+		AreaSpawnMeleeRebel(city, player, rebelLVL, 2)
+		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 3 or rebelLVL == 4 then
+		AreaSpawnMeleeRebel(city, player, rebelLVL, 2)
+		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
+		AreaSpawnSiegeRebel(city, player, rebelLVL, 1)
+		elseif rebelLVL == 5 then
+		AreaSpawnMeleeRebel(city, player, rebelLVL, 3)
+		AreaSpawnSiegeRebel(city, player, rebelLVL, 2)
+		end
+
+	end
+
+
+end
+]]

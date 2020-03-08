@@ -87,6 +87,9 @@
 		<Row Tag="TXT_KEY_GA_STAT">
 			<Text>[ICON_GOLDEN_AGE] Golden Age</Text>
 		</Row>
+		<Row Tag="TXT_KEY_TRADEANY_STAT">
+			<Text>[ICON_TURNS_REMAINING] Trade Routes</Text>
+		</Row>
 		<Row Tag="TXT_KEY_TRADE_ROUTES_STAT">
 			<Text>[ICON_TURNS_REMAINING] Trade Routes</Text>
 		</Row>
@@ -101,7 +104,7 @@
 			<Text>[ICON_HAPPINESS_4] Total Dissidence</Text>
 		</Row>
 		<Row Tag="TXT_KEY_BASE_DISSIDENCE_STAT">
-			<Text>[ICON_HAPPINESS_3] We Want Equal Rights</Text>
+			<Text>[ICON_PUPPET] We Want Equal Rights</Text>
 		</Row>
 		<Row Tag="TXT_KEY_CONNECTION_DISSIDENCE_STAT">
 			<Text>[ICON_BLOCKADED] Not Connected to the Metropole </Text>

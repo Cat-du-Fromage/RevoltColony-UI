@@ -156,11 +156,15 @@
 								<Label Offset="0,8" Font="TwCenMT20" Anchor="C,B" String="{TXT_KEY_LOYALITY}"/>
 							</Box>
 							<Box Anchor="L,T" Size="290,72" Color="255,255,255,0">
+								<!-- Loyality WLTKD -->
 								<Label Anchor="L,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_WLTKD_STAT}"/>
 								<Label Anchor="R,T" Offset="4,8" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsWLTKD"/>
-
+								<!-- Loyality GOLDEN AGE -->
 								<Label Anchor="L,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_GA_STAT}"/>
 								<Label Anchor="R,T" Offset="4,32" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsGA"/>
+								<!-- Loyality TRADE ROUTE -->
+								<Label Anchor="L,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="{TXT_KEY_TRADEANY_STAT}"/>
+								<Label Anchor="R,T" Offset="4,56" Font="TwCenMT16" ColorSet="Beige_Black_Alpha" FontStyle="Shadow" String="0" ID="ColonyStatsTradeAny"/>
 							</Box>
 							
 							<!-- Colony Culture Overview -->

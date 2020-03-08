@@ -1,3 +1,4 @@
+
 ------------------------------	
 -- Building_Promotion (NEW)
 ------------------------------
@@ -89,3 +90,58 @@ VALUES		('BUILDINGCLASS_GENERAL_TAXE_VALUE', 'BUILDING_GENERAL_TAXE_VALUE', 1);
 INSERT INTO Buildings
 			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
 VALUES		('BUILDING_GENERAL_TAXE_VALUE','BUILDINGCLASS_GENERAL_TAXE_VALUE',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE 10
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_10', 'BUILDING_GENERAL_TAXE_10', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_10','BUILDINGCLASS_GENERAL_TAXE_10',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE 20
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_20', 'BUILDING_GENERAL_TAXE_20', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_20','BUILDINGCLASS_GENERAL_TAXE_20',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE 30
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_30', 'BUILDING_GENERAL_TAXE_30', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_30','BUILDINGCLASS_GENERAL_TAXE_30',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE 40
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_40', 'BUILDING_GENERAL_TAXE_40', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_40','BUILDINGCLASS_GENERAL_TAXE_40',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);
+
+--===========================================
+ --Dummy Colony General Taxe VALUE 50
+ --===========================================
+INSERT INTO BuildingClasses
+			(Type,										DefaultBuilding,	NoLimit)
+VALUES		('BUILDINGCLASS_GENERAL_TAXE_50', 'BUILDING_GENERAL_TAXE_50', 1);
+
+INSERT INTO Buildings
+			(Type,				BuildingClass,									Description, GoldMaintenance, Cost, FaithCost, GreatWorkCount, NeverCapture, NukeImmune, ConquestProb, HurryCostModifier, IconAtlas,		PortraitIndex, IsDummy)
+VALUES		('BUILDING_GENERAL_TAXE_50','BUILDINGCLASS_GENERAL_TAXE_50',	'Teste',	 0,					-1,		-1,			-1,				1,			1,			0,			-1,				'CIV_COLOR_ATLAS',		0,			1);

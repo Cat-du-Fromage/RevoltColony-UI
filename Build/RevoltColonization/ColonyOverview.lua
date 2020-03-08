@@ -11,26 +11,8 @@ include("ColonyOverviewOutPut.lua")
 include("NewSaveUtils.lua")
 
 local g_ColonyButton = InstanceManager:new( "ColonyButtonInstance", "ColonyButton", Controls.ColonyStack );
-include( "SaveUtils.lua" ); MY_MOD_NAME = "RevoltColonization";
---=========================================================================================================
---How Many colonies do i have?
---=========================================================================================================
---[[
-function NumColony(g_iPlayer)
-local numColony = 0;
-local g_iPlayer = Players[Game.GetActivePlayer()]
-local player = Players[g_iPlayer];
-local ColonyCity = player:CountNumBuildings(GameInfoTypes["BUILDING_JFD_GOVERNORS_MANSION"]);
-if (ColonyCity == 0) then
-numColony = 0;
-print("NumColonyPersook1")
-else
-numColony = ColonyCity;
-print("NumColonyPersook2")
-end
-return numColony
-end
-]]
+WARN_NOT_SHARED = false; include( "SaveUtils" ); MY_MOD_NAME = "RevoltColonization";
+
 --=========================================================================================================
 --Open the UI Colony Overview
 --=========================================================================================================
@@ -206,21 +188,19 @@ function UpdateColonyList()
 		Controls.ApplyGeneralChanges:SetDisabled( false );
 		--Controls.TaxSliderValueToolTip:SetToolTipString( "" );
 	end
-	--Current taxe Applied
 	--[[
-	if GetPersistentProperty("TaxeValue") ~= nil then
-	Controls.GeneralTaxSliderValue:SetValue(GetPersistentProperty("TaxeValue"))
-	end
-	]]
+	--Current taxe Applied
 	if load(g_iPlayer, "TaxeTimer") ~= nil then
 	Controls.GeneralTaxSlider:SetValue(load(g_iPlayer, "GeneralTaxeValue"))
 	end
+	]]
+		--Current taxe Applied
+	Controls.GeneralTaxSlider:SetValue(GeneralTaxeDummyValue(g_iPlayer))
+
 	-- ON APPLY CHANGE
 	--Controls.ApplyGeneralChanges:SetDisabled( true );
 	Controls.ApplyGeneralChanges:SetVoid1( g_iPlayer );
 	Controls.ApplyGeneralChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
-	print("player", player)
-	print("g_iPlayer", g_iPlayer)
 	Controls.ApplyGeneralChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
 	-------------------------------------------------------------------------------------
 	Controls.ColonyStack:CalculateSize();
@@ -321,10 +301,10 @@ function ColonySelected( iCity ) -- ID
 	DoVassalStatistics( pCity, g_iPlayer );
 	--[[
 	-- ON APPLY CHANGE
-	Controls.ApplyGeneralChanges:SetDisabled( true );
-	Controls.ApplyGeneralChanges:SetVoid1( g_iPlayer );
-	Controls.ApplyGeneralChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
-	Controls.ApplyGeneralChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
+	Controls.ApplyChanges:SetDisabled( true );
+	Controls.ApplyChanges:SetVoid1( g_iPlayer );
+	Controls.ApplyChanges:RegisterCallback( Mouse.eLClick, OnApplyGeneralChangesClicked );
+	Controls.ApplyChanges:LocalizeAndSetToolTip( "TXT_KEY_APPLY_GENERAL_CHANGES_TT" );
 	]]
 
 	-- Liberate Vassal button
@@ -368,9 +348,11 @@ local dissidenceGeneraltaxe = DissidenceGeneralTaxes(player)
 local cityYieldGold = city:GetYieldRateTimes100( YieldTypes.YIELD_GOLD ) / 100
 local cityYieldScience = city:GetYieldRateTimes100( YieldTypes.YIELD_SCIENCE ) / 100
 local cityYieldCulture = city:GetYieldRateTimes100( YieldTypes.YIELD_CULTURE ) / 100
-print("CITYYIELD", cityYieldGold)
+
+--Loyality
 local WLTKDBonus = ColonyWLTKD(player, city)
 local GABonus = ColonyGoldenAge(player)
+local TradeAny = (TradeRouteAny(player, city))*5
 	-- Population Dissidence
 	Controls.ColonyStatsPopulation:SetText( city:GetPopulation() );
 	Controls.ColonyStatsTotalDissidence:SetText( TotalDissidence );
@@ -384,6 +366,7 @@ local GABonus = ColonyGoldenAge(player)
 	-- Population Loyality
 	Controls.ColonyStatsWLTKD:SetText( WLTKDBonus );
 	Controls.ColonyStatsGA:SetText( GABonus );
+	Controls.ColonyStatsTradeAny:SetText( TradeAny );
 
 	-- ColonyOutput
 	Controls.ColonyStatsGold:SetText(cityYieldGold);
@@ -436,7 +419,6 @@ end
 --=========================================================================================================
 function OnLiberateColonyClicked( cityID )
 	local player = Players[Game.GetActivePlayer()];
-	print( "Clicked on Liberate Civ: ", cityID )
 	local pCity = player:GetCityByID(cityID)
 	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_COLONY_CONFIRM_LIBERATE", pCity:GetName() );
 	Controls.Confirm:SetHide( false );
@@ -450,15 +432,13 @@ end
 function OnApplyGeneralChangesClicked( playerID )
 	local player = Players[Game.GetActivePlayer()];
 	local iTaxValue = PercentToTaxValue( Controls.GeneralTaxSlider:GetValue() );
-	local TaxeIncome = (ColoniesIncome(player))*(iTaxValue/100)
-	print( "Clicked on apply taxes(player): ", player )
-	print( "Clicked on apply taxes: (playerID)", playerID )
+	local TaxeIncome = (ColoniesGPTConversion(player))*(iTaxValue/100)
 	Controls.ConfirmLabel:LocalizeAndSetText( "TXT_KEY_GENERAL_COLONY_CONFIRM_TAX_CHANGE", iTaxValue, TaxeIncome);
 	Controls.Confirm:SetHide( false );
 	Controls.BGBlock:SetHide( true );
 	
 	Controls.Yes:SetVoid1( 1 );
-	Controls.Yes:SetVoid2( playerID );
+	Controls.Yes:SetVoid2( player );
 	Controls.Yes:RegisterCallback( Mouse.eLClick, OnYes );
 end
 -----------------------------------------------
@@ -483,10 +463,10 @@ function OnYes( type, iValue )
 	elseif ( type == 1 ) then
 	local player = Players[iValue]
 		local iTaxRate = PercentToTaxValue( Controls.GeneralTaxSlider:GetValue() );
-		print( "VALEUR TAXE EN %%%%", iTaxRate )
-		--SetPersistentProperty("TaxeValue", iTaxRate)
-		save( player, "GeneralTaxeValue", iTaxRate )
-		DoApplyColonyGeneralTaxe(iValue)
+		print( "VALEUR TAXE EN %%%% / player", iTaxRate,  player)
+		GeneralTaxeTIMER(iValue, iTaxRate)
+		--save( player, "GeneralTaxeValue", iTaxRate )
+		--DoApplyColonyGeneralTaxe(iValue)
 		OnClosingOK()
 	end
 end
@@ -498,3 +478,5 @@ function OnNo( )
 	Controls.BGBlock:SetHide(false);
 end
 Controls.No:RegisterCallback( Mouse.eLClick, OnNo );
+
+GameEvents.PlayerDoTurn.Add(TimerGeneralTaxeFade)
