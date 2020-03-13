@@ -276,7 +276,7 @@ local TaxeValue = GeneralTaxeDummyValue(player)
 		elseif TaxeValue == 40 then
 		dissidenceGeneraltaxe = 20
 		elseif TaxeValue == 50 then
-		dissidenceGeneraltaxe = 25
+		dissidenceGeneraltaxe = 50 ----------------A CHANGER(25)
 		end
 	end
 	return dissidenceGeneraltaxe
@@ -303,8 +303,6 @@ local Dissidence = 0
 			local dissidenceGeneraltaxe = DissidenceGeneralTaxes(player)
 
 			local loyalityBonus = LoyalityBonus(city, player)
-			--local WLTKDBonus = ColonyWLTKD(player, city)
-			--local GABonus = ColonyGoldenAge(player)
 			--
 			if (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) >= 50 then
 			Dissidence = (Dissidence + dissidenceWW + dissidenceGPT + dissidenceConnectionMetropoleBuild + dissidenceBaseUnHappiness + dissidenceEmpire + dissidenceGeneraltaxe) - loyalityBonus--(WLTKDBonus + GABonus)

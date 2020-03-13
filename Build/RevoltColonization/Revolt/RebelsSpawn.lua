@@ -3,6 +3,8 @@
 -- DateCreated: 2/26/2020 4:06:01 PM
 --------------------------------------------------------------
 include("PlotIterators.lua")
+include("CSRebels.lua")
+include("UnitSpawnHandler.lua")
 --===============================================================
 --UNIT TYPE LAND
 --===============================================================
@@ -109,23 +111,24 @@ end
 --Function Spawn LAND UNIT
 --=========================================================================================
 --SPAWN AREA FOR MELEE
-function AreaSpawnMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
+function AreaSpawnMeleeRebel(cityID, playerID, rebelID ,RebelLVL, NumUnit)
+print("SPAWN MELEE")
 	local pBarbarian = Players[63]
+	local iPlayer = playerID:GetID()
+	local iRebel = rebelID:GetID()
 	local pCity = cityID
-	local iPlayer = playerID
+	local colonyX = pCity:GetX()
+	local colonyY = pCity:GetY()
 	local rebelLVL = RebelLVL
-	local meleeUnit = MeleeUnitRebelsColony(iPlayer)
+	local meleeUnit = MeleeUnitRebelsColony(playerID)
+	print("SPAWN MELEE meleeUnit", meleeUnit)
 	local iNumtoPlace = NumUnit
+	print("SPAWN MELEE rebelID", rebelID)
+
 	local pPlot = pCity:Plot()
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local pTargetPlot = nil
@@ -133,15 +136,21 @@ function AreaSpawnMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
 	    for iVal = 1, iNumtoPlace do
 		local bPlaced = false
 		while (not(bPlaced)) and #tPlots > 0 do
+		print("SPAWN MELEE ok 1")
 			local iRandom = GetRandom(1, #tPlots)
 			local pPlot = tPlots[iRandom]
-			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer) and (not(pPlot:IsNaturalWonder())) ) then
+			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and (not(pPlot:IsNaturalWonder())) then
 			pPlotX = pPlot:GetX()
 			pPlotY = pPlot:GetY()
-			pmeleeUnit = pBarbarian:InitUnit(meleeUnit, pPlotX, pPlotY)
+			--[[
+			pmeleeUnit = rebelID:InitUnit(meleeUnit, pPlotX, pPlotY)
 			pmeleeUnit:JumpToNearestValidPlot()
+			]]
+			SpawnAtPlot(rebelID, meleeUnit, pPlotX, pPlotY)
 			pTargetPlot = pPlot
 			bPlaced = true
+			print("SPAWN MELEE ok 2")
+
 			end
 			table.remove(tPlots, iRandom)
 		end
@@ -149,23 +158,23 @@ function AreaSpawnMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
 	return pTargetPlot
 end
 --SPAWN AREA FOR RANGE
-function AreaSpawnRangeRebel(cityID, playerID, RebelLVL, NumUnit)
+function AreaSpawnRangeRebel(cityID, playerID, rebelID, RebelLVL, NumUnit)
+print("SPAWN RANGE")
 	local pBarbarian = Players[63]
+	local iPlayer = playerID:GetID()
+	local iRebel = rebelID:GetID()
 	local pCity = cityID
-	local iPlayer = playerID
+	local colonyX = pCity:GetX()
+	local colonyY = pCity:GetY()
 	local rebelLVL = RebelLVL
-	local rangeUnit = RangeUnitRebelsColony(iPlayer)
+	local rangeUnit = RangeUnitRebelsColony(playerID)
+	print("SPAWN RANGE rangeUnit", rangeUnit)
 	local iNumtoPlace = NumUnit
+
 	local pPlot = pCity:Plot()
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local pTargetPlot = nil
@@ -175,14 +184,17 @@ function AreaSpawnRangeRebel(cityID, playerID, RebelLVL, NumUnit)
 		while (not(bPlaced)) and #tPlots > 0 do
 			local iRandom = GetRandom(1, #tPlots)
 			local pPlot = tPlots[iRandom]
-			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer) and (not(pPlot:IsNaturalWonder())) ) then
+			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and (not(pPlot:IsNaturalWonder())) then
 			pPlotX = pPlot:GetX()
 			pPlotY = pPlot:GetY()
-
-			prangeUnit = pBarbarian:InitUnit(rangeUnit, pPlotX, pPlotY)
+			--[[
+			prangeUnit = rebelID:InitUnit(rangeUnit, pPlotX, pPlotY)
 			prangeUnit:JumpToNearestValidPlot()
+			]]
+			SpawnAtPlot(rebelID, rangeUnit, pPlotX, pPlotY)
 			pTargetPlot = pPlot
 			bPlaced = true
+			print("SPAWN RANGE ok 3")
 
 			end
 			table.remove(tPlots, iRandom)
@@ -191,23 +203,23 @@ function AreaSpawnRangeRebel(cityID, playerID, RebelLVL, NumUnit)
 	return pTargetPlot
 end
 --SPAWN AREA FOR SIEGE
-function AreaSpawnSiegeRebel(cityID, playerID, RebelLVL, NumUnit)
+function AreaSpawnSiegeRebel(cityID, playerID, rebelID, RebelLVL, NumUnit)
+print("SPAWN SIEGE")
 	local pBarbarian = Players[63]
+	local iPlayer = playerID:GetID()
+	local iRebel = rebelID:GetID()
 	local pCity = cityID
+	local colonyX = pCity:GetX()
+	local colonyY = pCity:GetY()
 	local iPlayer = playerID
 	local rebelLVL = RebelLVL
 	local siegeUnit = SiegeUnitRebelsColony(iPlayer)
 	local iNumtoPlace = NumUnit
+
 	local pPlot = pCity:Plot()
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local pTargetPlot = nil
@@ -217,13 +229,17 @@ function AreaSpawnSiegeRebel(cityID, playerID, RebelLVL, NumUnit)
 		while (not(bPlaced)) and #tPlots > 0 do
 			local iRandom = GetRandom(1, #tPlots)
 			local pPlot = tPlots[iRandom]
-			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and ((pPlot:GetOwner() == -1) or (pPlot:GetOwner() == iPlayer) and (not(pPlot:IsNaturalWonder())) ) then
+			if (pPlot:GetNumUnits() == 0) and (pPlot:IsCity() == false) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_COAST"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_OCEAN"]) and (pPlot:GetTerrainType() ~= GameInfoTypes["TERRAIN_MOUNTAIN"]) and (pPlot:GetFeatureType() ~= GameInfoTypes["FEATURE_ICE"]) and (not(pPlot:IsLake())) and (not(pPlot:IsNaturalWonder())) then
 			pPlotX = pPlot:GetX()
 			pPlotY = pPlot:GetY()
-			psiegeUnit = pBarbarian:InitUnit(siegeUnit, pPlotX, pPlotY)
+			--[[
+			psiegeUnit = rebelID:InitUnit(siegeUnit, pPlotX, pPlotY)
 			psiegeUnit:JumpToNearestValidPlot()
+			]]
+			SpawnAtPlot(rebelID, siegeUnit, pPlotX, pPlotY)
 			pTargetPlot = pPlot
 			bPlaced = true
+
 			end
 			table.remove(tPlots, iRandom)
 		end
@@ -235,7 +251,7 @@ end
 --Function Spawn SEA UNIT
 --=========================================================================================
 --SPAWN AREA FOR MELEE NAVAL
-function AreaSpawnNavalMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
+function AreaSpawnNavalMeleeRebel(cityID, playerID, rebelID, RebelLVL, NumUnit)
 	local pBarbarian = Players[63]
 	local pCity = cityID
 	local iPlayer = playerID
@@ -246,12 +262,6 @@ function AreaSpawnNavalMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local pTargetPlot = nil
@@ -266,7 +276,7 @@ function AreaSpawnNavalMeleeRebel(cityID, playerID, RebelLVL, NumUnit)
 				pPlotX = pPlot:GetX()
 				pPlotY = pPlot:GetY()
 
-					pnavalMelee = pBarbarian:InitUnit(navalMelee, pPlotX, pPlotY)
+					pnavalMelee = rebelID:InitUnit(navalMelee, pPlotX, pPlotY)
 					pnavalMelee:JumpToNearestValidPlot()
 					pTargetPlot = pPlot
 					bPlaced = true
@@ -281,7 +291,8 @@ end
 
 
 --SPAWN AREA FOR RANGE NAVAL
-function AreaSpawnNavalRangeRebel(cityID, playerID, RebelLVL, NumUnit)
+function AreaSpawnNavalRangeRebel(cityID, playerID, rebelID, RebelLVL, NumUnit)
+	local iRebel = rebelID:GetID()
 	local pBarbarian = Players[63]
 	local pCity = cityID
 	local iPlayer = playerID
@@ -292,12 +303,6 @@ function AreaSpawnNavalRangeRebel(cityID, playerID, RebelLVL, NumUnit)
     local tPlots = {}
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local pTargetPlot = nil
@@ -311,7 +316,7 @@ function AreaSpawnNavalRangeRebel(cityID, playerID, RebelLVL, NumUnit)
 			pPlotX = pPlot:GetX()
 			pPlotY = pPlot:GetY()
 
-				pnavalRange = pBarbarian:InitUnit(navalRange, pPlotX, pPlotY)
+				pnavalRange = rebelID:InitUnit(navalRange, pPlotX, pPlotY)
 				pnavalRange:JumpToNearestValidPlot()
 				pTargetPlot = pPlot
 				bPlaced = true
@@ -332,12 +337,6 @@ function NumEarth(pCity)
     local iNumtoPlace = 1
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 2, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 	local numEarth = 0;
 	for i, pLoopPlot in pairs(tPlots) do
@@ -356,12 +355,6 @@ function NumWater(pCity)
     local iNumtoPlace = 1
     for pLoopPlot in PlotAreaSpiralIterator(pPlot, 1, SECTOR_NORTH, DIRECTION_CLOCKWISE, DIRECTION_OUTWARDS, CENTRE_EXCLUDE) do
         table.insert(tPlots, pLoopPlot)
-		--[[
-		if pLoopPlot:GetOwner() == iPlayer then
-			table.insert(tPlots, pLoopPlot)
-			table.insert(tPlots, pLoopPlot)
-		end
-		]]
     end
 
 	local numWater = 0;
@@ -377,7 +370,7 @@ end
 --=========================================================================================
 --Function Main
 --=========================================================================================
-
+--[[
 function MainSpawnRebels(playerID, cityID, RebelLVL)
 local player = playerID
 local city = cityID
@@ -419,28 +412,26 @@ local rebelLVL = RebelLVL
 
 end
 
-
+]]
 
 --=========================================================================================
 --Function Main 2.0
 --=========================================================================================
---[[
+
 function MainSpawnRebels(playerID, cityID, RebelLVL)
 local player = playerID
+local iPlayerID = player:GetID()
+print(" MainSpawnRebels iPlayerID", iPlayerID)
+print(" MainSpawnRebels playerID", playerID)
+local iPlayer = Players[0]
 local city = cityID
 local rebelLVL = RebelLVL
-local reservedCS = load("ReservedCS")
-local colonyOwnerID = reservedCS[rebelID].Reference
-
-	if reservedCS[rebelID].Type == CultureType(playerID) then
-	originalType = reservedCS[rebelID].Type
-	end
+local reservedCS = load(iPlayer, "ReservedCS")
 
 local cultureType = CultureType(playerID)
-
+print(" MainSpawnRebels cultureType", cultureType)
 local freeSlots, rebelID = GetFreeSlotsAndRebelID(reservedCS, playerID, cultureType)
-local rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
-
+print(" MainSpawnRebels rebelID", rebelID)
 	if not rebelID then
 		if #freeSlots > 0 then
 			
@@ -448,47 +439,57 @@ local rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
 
 		else
 			print ("              - WARNING : No free slot !!!")
-			local damage = CITY_DAMAGE_REVOLUTION + math.random( 0, CITY_DAMAGE_REVOLUTION_VAR )
-			city:ChangeDamage(damage)
-			return false -- can't set rebelID
+			rebelID = 63
 		end
 	end
-local rebelID = AssignRebelSlot(freeSlots, playerID, cultureType)
-
+local rebel = Players[rebelID]
+--local iRebel = rebelID:GetID()
+--print(" MainSpawnRebels iRebel", iRebel)
+--[[
+local teamPlayer = Teams[playerID:GetTeam()]
+local teamRebel = Teams[rebel:GetTeam()]
+local iTeamRebel = rebel:GetTeam()
+local iTeamPlayer = playerID:GetTeam()
+print(" MainSpawnRebels teamPlayer", teamPlayer)
+print(" MainSpawnRebels iTeamRebel", iTeamRebel)
+print(" MainSpawnRebels rebel", rebel)
+print(" MainSpawnRebels rebelID", rebelID)
+]]
 	--NAVAL UNIT
 	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
 		if rebelLVL == 1 then
-		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)
+		AreaSpawnNavalMeleeRebel(city, player, rebel, rebelLVL, 1)
 		elseif rebelLVL == 2 then
-		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 1)
-		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 1)
+		AreaSpawnNavalMeleeRebel(city, player, rebel, rebelLVL, 1)
+		AreaSpawnNavalRangeRebel(city, player, rebel, rebelLVL, 1)
 		elseif rebelLVL == 3 or rebelLVL == 4 then
-		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 2)
-		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 1)
+		AreaSpawnNavalMeleeRebel(city, player, rebel, rebelLVL, 2)
+		AreaSpawnNavalRangeRebel(city, player, rebel, rebelLVL, 1)
 		elseif rebelLVL == 5 then
-		AreaSpawnNavalMeleeRebel(city, player, rebelLVL, 2)
-		AreaSpawnNavalRangeRebel(city, player, rebelLVL, 2)
+		AreaSpawnNavalMeleeRebel(city, player, rebel, rebelLVL, 2)
+		AreaSpawnNavalRangeRebel(city, player, rebel, rebelLVL, 2)
 		end
 
 	else
 	--LAND UNIT
 		if rebelLVL == 1 then
-		AreaSpawnMeleeRebel(city, player, rebelLVL, 1)
-		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
-		elseif rebelLVL == 2 then
-		AreaSpawnMeleeRebel(city, player, rebelLVL, 2)
-		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
-		elseif rebelLVL == 3 or rebelLVL == 4 then
-		AreaSpawnMeleeRebel(city, player, rebelLVL, 2)
-		AreaSpawnRangeRebel(city, player, rebelLVL, 1)
-		AreaSpawnSiegeRebel(city, player, rebelLVL, 1)
-		elseif rebelLVL == 5 then
-		AreaSpawnMeleeRebel(city, player, rebelLVL, 3)
-		AreaSpawnSiegeRebel(city, player, rebelLVL, 2)
-		end
+		AreaSpawnMeleeRebel(city, player, rebel, rebelLVL, 1)
+		AreaSpawnRangeRebel(city, player, rebel, rebelLVL, 1)
 
+		elseif rebelLVL == 2 then
+		AreaSpawnMeleeRebel(city, player, rebel, rebelLVL, 2)
+		AreaSpawnRangeRebel(city, player, rebel, rebelLVL, 1)
+
+		elseif rebelLVL == 3 or rebelLVL == 4 then
+		AreaSpawnMeleeRebel(city, player, rebel, rebelLVL, 2)
+		AreaSpawnRangeRebel(city, player, rebel, rebelLVL, 1)
+		AreaSpawnSiegeRebel(city, player, rebel, rebelLVL, 1)
+
+		elseif rebelLVL == 5 then
+		AreaSpawnMeleeRebel(city, player, rebel, rebelLVL, 3)
+		AreaSpawnSiegeRebel(city, player, rebel, rebelLVL, 2)
+
+		end
 	end
 
-
 end
-]]

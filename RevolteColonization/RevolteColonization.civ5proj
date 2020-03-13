@@ -22,10 +22,17 @@
     <RootNamespace>RevolteColonization</RootNamespace>
     <ModReferences />
     <ModDependencies>
-      <Association xmlns="">
+      <Association>
         <Type>Mod</Type>
         <Name>Colonization Mod</Name>
         <Id>78566333-5214-434f-801d-4168386c2475</Id>
+        <MinVersion>0</MinVersion>
+        <MaxVersion>999</MaxVersion>
+      </Association>
+      <Association>
+        <Type>Mod</Type>
+        <Name>(1) Community Patch</Name>
+        <Id>d1b6328c-ff44-4b0d-aad7-c657f83610cd</Id>
         <MinVersion>0</MinVersion>
         <MaxVersion>999</MaxVersion>
       </Association>
@@ -75,12 +82,6 @@
       </Content>
       <Content>
         <Type>InGameUIAddin</Type>
-        <Name>NewSaveUtils</Name>
-        <Description />
-        <FileName>NewSaveUtils.lua</FileName>
-      </Content>
-      <Content>
-        <Type>InGameUIAddin</Type>
         <Name>SaveUtils</Name>
         <Description />
         <FileName>SaveUtils.lua</FileName>
@@ -96,6 +97,12 @@
         <Name>CSRebels</Name>
         <Description />
         <FileName>Revolt/CSRebels.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>UnitSpawnHandler</Name>
+        <Description />
+        <FileName>UnitSpawnHandler.lua</FileName>
       </Content>
     </ModContent>
     <ModActions>
@@ -190,6 +197,10 @@
     <Content Include="TesteFacility.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="UnitSpawnHandler.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
   </ItemGroup>
   <ItemGroup>

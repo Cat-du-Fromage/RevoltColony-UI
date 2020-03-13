@@ -2,7 +2,6 @@
 -- Author: Florian
 -- DateCreated: 2/29/2020 7:58:56 PM
 --------------------------------------------------------------
-include("NewSaveUtils.lua")
 WARN_NOT_SHARED = false; include( "SaveUtils" ); MY_MOD_NAME = "RevoltColonization";
 --save( iValue, "GeneralTaxeValue", iTaxRate )
 --GLOBALS
@@ -163,11 +162,8 @@ local DummyTaxe = GameInfoTypes.BUILDING_GENERAL_TAXE
 local DummyGeneralTaxeTimer = GameInfoTypes.BUILDING_GENERAL_TAXE_TIMER
 local player = Players[playerID]
 local capital = player:GetCapitalCity()
-print("Taxe Value", iTaxeValue)
-print("Taxe Value playerID", playerID)
-print("Taxe Value player", player)
 	if iTaxeValue ~= 0 and iTaxeValue ~= nil then
-	capital:SetNumRealBuilding(DummyGeneralTaxeTimer, 4)
+	capital:SetNumRealBuilding(DummyGeneralTaxeTimer, 1)
 	GeneralTaxeDummy(playerID, iTaxeValue)
 	TaxeOutput(playerID, iTaxeValue)
 	elseif iTaxeValue == 0 then
@@ -269,11 +265,11 @@ end
 --=========================================================================================================
 
 function GeneralTaxeDummyValue(playerID)
-print("GeneralTaxeDummyValue playerID", playerID)
+
 local player = Players[playerID]
-print("GeneralTaxeDummyValue player", player)
+
 local iPlayer = Players[Game.GetActivePlayer()]
-print("GeneralTaxeDummyValue iPlayer", iPlayer)
+
 local iGeneralTaxe = 0
 
 	if iPlayer:CountNumBuildings(DummyGeneralTaxe50) == 1 then
@@ -324,9 +320,7 @@ end
 function ColoniesGPT(playerID)
 local player = Players[playerID]
 local iPlayer = Players[Game.GetActivePlayer()]
-print("ColoniesGPT playerID", playerID)
-print("ColoniesGPT player", player)
-print("ColoniesGPT iPlayer", iPlayer)
+
 local coloniesIncome = 0
 	for city in iPlayer:Cities() do
 		if city:IsColony() == true then
@@ -350,10 +344,10 @@ local imperialismPolicy = GameInfoTypes.POLICY_MARITIME_INFRASTRUCTURE
 
 	if iPlayer:HasPolicy(imperialismPolicy) then
 	iNetColoniesIncome = iBrutColoniesIncome/imperialismModifier
-	print("iNetColoniesIncome", iNetColoniesIncome)
+
 	else
 	iNetColoniesIncome = iBrutColoniesIncome/BaseModifier
-	print("iNetColoniesIncome", iNetColoniesIncome)
+
 	end
 	return iNetColoniesIncome
 end

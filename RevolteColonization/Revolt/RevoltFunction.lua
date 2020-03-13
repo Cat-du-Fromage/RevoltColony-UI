@@ -7,9 +7,10 @@ include("PlotIterators.lua")
 include("RebelsSpawn.lua")
 include("LoyalityFunction.lua")
 include("DissidenceFunction.lua")
-
+include("CSRebels.lua")
 --------------------------------------------------------------------------------------------------
-
+local SpawnTimer = 2
+local SpawnReset = SpawnTimer + 2
 --Timer for rebel spawn (10 turns) XXXXXXXXXXXXXXXXXXXXXXX CHANGER TIMER
 function SpawnRebelConditions(playerID, cityID, RebelLVL)
 local DummyTimer = GameInfoTypes.BUILDING_TIMER
@@ -17,7 +18,7 @@ local player = playerID
 local city = cityID
 local rebelLVL = RebelLVL
 local CurrentTimer = city:GetNumBuilding(DummyTimer)
-	if CurrentTimer == 11 then -- remet le timer à 0 quand arrivé à max
+	if CurrentTimer == SpawnReset then -- remet le timer à 0 quand arrivé à max
 		city:SetNumRealBuilding(DummyTimer, 0)
 	else
 		if rebelLVL >= 1 then
@@ -52,10 +53,11 @@ end
 
 function MainFunction(playerID) --XXXXXXXXXXXXXXXXXXXXXXX mettre condition tech + num building
 local buildingGovernorsMansionID = GameInfoTypes["BUILDING_JFD_GOVERNORS_MANSION"]
+local DummyTimer = GameInfoTypes.BUILDING_TIMER
 local rebelLVL = 0
 local player = Players[playerID]
+local currentTimer = player:CountNumBuildings(DummyTimer)
 
-local SpawnTimer = 10
 if player:IsHuman() == true then
 	if player:HasTech(GameInfoTypes["TECH_ASTRONOMY"] and player:CountNumBuildings(buildingGovernorsMansionID) > 0) then
 		for city in player:Cities() do
@@ -63,8 +65,9 @@ if player:IsHuman() == true then
 				local dissidenceConnectionMetropole = DissidenceConnectionMetropole(city, player)
 						if ColonyDissidence(city, player) >= 50 --[[and ColonyDissidence(city, player) < 60 ]]then
 							local rebelLVL = 1
+							SpawnRebelConditions(player, city, rebelLVL)
 							DamageCity(player, city, rebelLVL)
-							if SpawnRebelConditions(player, city, rebelLVL) == SpawnTimer then -- après 3 tours... surprise
+							if currentTimer == SpawnTimer then -- après 3 tours... surprise
 							MainSpawnRebels(player, city, rebelLVL)
 							end
 
@@ -73,8 +76,9 @@ if player:IsHuman() == true then
 							end
 						elseif ColonyDissidence(city, player) >= 60 and ColonyDissidence(city, player) < 70 then
 							local rebelLVL = 2
+							SpawnRebelConditions(player, city, rebelLVL)
 							DamageCity(playerID, cityID, RebelLVL)
-							if SpawnRebelConditions(player, city, rebelLVL) == SpawnTimer then -- après 3 tours... surprise
+							if currentTimer == SpawnTimer then -- après 3 tours... surprise
 							MainSpawnRebels(player, city, rebelLVL)
 							end
 
@@ -83,8 +87,9 @@ if player:IsHuman() == true then
 							end
 						elseif ColonyDissidence(city, player) >= 70 and ColonyDissidence(city, player) < 80 then
 							local rebelLVL = 3
+							SpawnRebelConditions(player, city, rebelLVL)
 							DamageCity(playerID, cityID, RebelLVL)
-							if SpawnRebelConditions(player, city, rebelLVL) == SpawnTimer then -- après 3 tours... surprise
+							if currentTimer == SpawnTimer then -- après 3 tours... surprise
 							MainSpawnRebels(player, city, rebelLVL)
 							end
 
@@ -93,8 +98,9 @@ if player:IsHuman() == true then
 							end
 						elseif ColonyDissidence(city, player) >= 80 and ColonyDissidence(city, player) < 90 then
 							local rebelLVL = 4
+							SpawnRebelConditions(player, city, rebelLVL)
 							DamageCity(playerID, cityID, RebelLVL)
-							if SpawnRebelConditions(player, city, rebelLVL) == SpawnTimer then -- après 3 tours... surprise
+							if currentTimer == SpawnTimer then -- après 3 tours... surprise
 							MainSpawnRebels(player, city, rebelLVL)
 							end
 
@@ -103,8 +109,9 @@ if player:IsHuman() == true then
 							end
 						elseif ColonyDissidence(city, player) >= 90 then
 							local rebelLVL = 5
+							SpawnRebelConditions(player, city, rebelLVL)
 							DamageCity(playerID, cityID, RebelLVL)
-							if SpawnRebelConditions(player, city, rebelLVL) == SpawnTimer then -- après 3 tours... surprise
+							if currentTimer == SpawnTimer then -- après 3 tours... surprise
 							MainSpawnRebels(player, city, rebelLVL)
 							end
 

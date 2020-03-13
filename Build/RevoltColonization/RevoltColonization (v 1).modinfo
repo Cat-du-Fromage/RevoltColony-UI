@@ -20,6 +20,7 @@
   </Properties>
   <Dependencies>
     <Mod id="78566333-5214-434f-801d-4168386c2475" minversion="0" maxversion="999" title="Colonization Mod" />
+    <Mod id="d1b6328c-ff44-4b0d-aad7-c657f83610cd" minversion="0" maxversion="999" title="(1) Community Patch" />
   </Dependencies>
   <References />
   <Blocks />
@@ -28,19 +29,20 @@
     <File md5="6BCF0AF88EDB7E1E8AB27049CB23805B" import="0">ColonyOverview.xml</File>
     <File md5="B5BD44A44F203713A7F708DAF4FCEE2F" import="0">ColonyText.xml</File>
     <File md5="21391FA109D28201D9B268FACB87F3CC" import="0">Revolt/animationcheatSHEET.lua</File>
-    <File md5="11310AE13346AD4E1BD8196C88F4A471" import="1">Revolt/ColonyOverviewOutPut.lua</File>
+    <File md5="0787A5C3CB22CBA68901B7DE181E00F0" import="1">Revolt/ColonyOverviewOutPut.lua</File>
     <File md5="F9AFC2922F7F30E5207C6B4E3FE2DF27" import="0">Revolt/ColonyUtils.lua</File>
-    <File md5="2F03BC09854064536967C9A4EFF8E469" import="1">Revolt/CSRebels.lua</File>
-    <File md5="6C0462EAA5313AE925A9E91E8A4E1469" import="1">Revolt/DissidenceFunction.lua</File>
+    <File md5="A4ABCD8578A0CDB4C9E4DCC1BB5A6349" import="1">Revolt/CSRebels.lua</File>
+    <File md5="52D1FDEAD2C8143DCC3C7ABAFD6BAFB8" import="1">Revolt/DissidenceFunction.lua</File>
     <File md5="1C59D2FC8F0D21F1B8197701CC980A9D" import="1">Revolt/LoyalityFunction.lua</File>
     <File md5="5690A1B2ACA2729FD9D55156E232AB1A" import="1">Revolt/PlotIterators.lua</File>
-    <File md5="D4860983963571CBC3B1FA4CAB660DDF" import="1">Revolt/RebelsSpawn.lua</File>
-    <File md5="9160967CFD29B98FE7832E051678F9D1" import="0">Revolt/RevoltFunction.lua</File>
+    <File md5="F1548965246AD48BBD44D6A297447A4F" import="1">Revolt/RebelsSpawn.lua</File>
+    <File md5="E20134B96433ADB0168AC8669F76067E" import="0">Revolt/RevoltFunction.lua</File>
     <File md5="1B9D6F3251EDE2E7BE85D6F85CFE0F67" import="1">Revolt/RouteConnections.lua</File>
     <File md5="55ABB9E8218BF14D027D85B97E94CAF5" import="1">NewSaveUtils.lua</File>
     <File md5="5754B1BE6E37A2F9D04D9D4149E5CDDF" import="1">SaveUtils.lua</File>
     <File md5="F339F2B81FDA270F269540E328261328" import="1">ShareData.lua</File>
     <File md5="C313818017BAC0203EBEF0BBB8FC43BB" import="0">TesteFacility.sql</File>
+    <File md5="F3E8937B7A2F2DC590F4499765A4710D" import="1">UnitSpawnHandler.lua</File>
   </Files>
   <Actions>
     <OnModActivated>
@@ -84,11 +86,6 @@
       <Description>
       </Description>
     </EntryPoint>
-    <EntryPoint type="InGameUIAddin" file="NewSaveUtils.lua">
-      <Name>NewSaveUtils</Name>
-      <Description>
-      </Description>
-    </EntryPoint>
     <EntryPoint type="InGameUIAddin" file="SaveUtils.lua">
       <Name>SaveUtils</Name>
       <Description>
@@ -101,6 +98,11 @@
     </EntryPoint>
     <EntryPoint type="InGameUIAddin" file="Revolt/CSRebels.lua">
       <Name>CSRebels</Name>
+      <Description>
+      </Description>
+    </EntryPoint>
+    <EntryPoint type="InGameUIAddin" file="UnitSpawnHandler.lua">
+      <Name>UnitSpawnHandler</Name>
       <Description>
       </Description>
     </EntryPoint>
