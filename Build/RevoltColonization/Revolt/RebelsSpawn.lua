@@ -443,18 +443,7 @@ print(" MainSpawnRebels rebelID", rebelID)
 		end
 	end
 local rebel = Players[rebelID]
---local iRebel = rebelID:GetID()
---print(" MainSpawnRebels iRebel", iRebel)
---[[
-local teamPlayer = Teams[playerID:GetTeam()]
-local teamRebel = Teams[rebel:GetTeam()]
-local iTeamRebel = rebel:GetTeam()
-local iTeamPlayer = playerID:GetTeam()
-print(" MainSpawnRebels teamPlayer", teamPlayer)
-print(" MainSpawnRebels iTeamRebel", iTeamRebel)
-print(" MainSpawnRebels rebel", rebel)
-print(" MainSpawnRebels rebelID", rebelID)
-]]
+rebel:AddTemporaryDominanceZone (city:GetX(), city:GetY())
 	--NAVAL UNIT
 	if (NumWater(city) == 6) or ((city:IsCoastal() == true) and (NumEarth(city) <= 10)) then
 		if rebelLVL == 1 then

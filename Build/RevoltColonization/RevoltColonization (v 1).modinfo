@@ -31,11 +31,11 @@
     <File md5="21391FA109D28201D9B268FACB87F3CC" import="0">Revolt/animationcheatSHEET.lua</File>
     <File md5="0787A5C3CB22CBA68901B7DE181E00F0" import="1">Revolt/ColonyOverviewOutPut.lua</File>
     <File md5="F9AFC2922F7F30E5207C6B4E3FE2DF27" import="0">Revolt/ColonyUtils.lua</File>
-    <File md5="A4ABCD8578A0CDB4C9E4DCC1BB5A6349" import="1">Revolt/CSRebels.lua</File>
+    <File md5="4FB752981D469E840EE80981B47DDEED" import="1">Revolt/CSRebels.lua</File>
     <File md5="52D1FDEAD2C8143DCC3C7ABAFD6BAFB8" import="1">Revolt/DissidenceFunction.lua</File>
     <File md5="1C59D2FC8F0D21F1B8197701CC980A9D" import="1">Revolt/LoyalityFunction.lua</File>
     <File md5="5690A1B2ACA2729FD9D55156E232AB1A" import="1">Revolt/PlotIterators.lua</File>
-    <File md5="F1548965246AD48BBD44D6A297447A4F" import="1">Revolt/RebelsSpawn.lua</File>
+    <File md5="863DE6E310F535C47F9D8C581FA1C34D" import="1">Revolt/RebelsSpawn.lua</File>
     <File md5="E20134B96433ADB0168AC8669F76067E" import="0">Revolt/RevoltFunction.lua</File>
     <File md5="1B9D6F3251EDE2E7BE85D6F85CFE0F67" import="1">Revolt/RouteConnections.lua</File>
     <File md5="55ABB9E8218BF14D027D85B97E94CAF5" import="1">NewSaveUtils.lua</File>

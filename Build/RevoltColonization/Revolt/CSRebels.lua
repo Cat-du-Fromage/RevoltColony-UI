@@ -215,7 +215,7 @@ end
 --==================================================================================================================
 --UTILITIES
 --==================================================================================================================
---[[
+
 -- Functions to hide Minor civ War Button
 function UpdateCityStateScreen( popupInfo )
 
@@ -269,8 +269,8 @@ function UpdateCityStateScreen( popupInfo )
 		ContextPtr:LookUpControl("/InGame/CityStateDiploPopup/NoUnitSpawningButton"):SetHide(true)
 
 	else
-		ContextPtr:LookUpControl("/InGame/CityStateDiploPopup/PeaceButton"):SetDisabled(false)
-		ContextPtr:LookUpControl("/InGame/CityStateDiploPopup/PeaceButton"):SetToolTipString( "" )
+		--ContextPtr:LookUpControl("/InGame/CityStateDiploPopup/PeaceButton"):SetDisabled(false)
+		--ContextPtr:LookUpControl("/InGame/CityStateDiploPopup/PeaceButton"):SetToolTipString( "" )
 	end
 	
 	-- Update Screen
@@ -282,7 +282,7 @@ function UpdateCityStateScreen( popupInfo )
 end
 
 Events.SerialEventGameMessagePopup.Add(UpdateCityStateScreen)
-]]
+
 function DeclarePermanentWar(iPlayer1, iPlayer2)
 	local player1 = Players[ iPlayer1 ]
 	local player2 = Players[ iPlayer2 ]
